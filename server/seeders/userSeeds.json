@@ -1,0 +1,46 @@
+[
+  {
+    "username": "AliceWonder",
+    "email": "alice@example.com",
+    "password": "Password123",
+    "incomeStreams": [
+      { "source": "Job", "amount": 2500 },
+      { "source": "Freelance", "amount": 500 }
+    ],
+    "expenses": [
+      { "description": "Rent", "amount": 1200 },
+      { "description": "Groceries", "amount": 300 }
+    ]
+  },
+  {
+    "username": "BobBuilder",
+    "email": "bob@example.com",
+    "password": "Password123",
+    "incomeStreams": [],
+    "expenses": []
+  },
+  {
+    "username": "CharlieBrown",
+    "email": "charlie@example.com",
+    "password": "Password123",
+    "incomeStreams": [{ "source": "Part-time Job", "amount": 1500 }],
+    "expenses": [{ "description": "Rent", "amount": 800 }]
+  },
+  {
+    "username": "DavidDuke",
+    "email": "david@example.com",
+    "password": "Password123",
+    "incomeStreams": [],
+    "expenses": []
+  },
+  {
+    "username": "EvaGreen",
+    "email": "eva@example.com",
+    "password": "Password123",
+    "incomeStreams": [{ "source": "Acting", "amount": 4000 }],
+    "expenses": [
+      { "description": "Rent", "amount": 1500 },
+      { "description": "Utilities", "amount": 200 }
+    ]
+  }
+]
