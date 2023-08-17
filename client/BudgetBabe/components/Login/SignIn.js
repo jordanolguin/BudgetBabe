@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/client";
+import { SIGN_IN } from "../../apollo/mutations/mutations";
 import {
   Box,
   Text,
@@ -20,6 +22,21 @@ const SignInForm = () => {
   };
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
+  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signIn, { loading, error }] = useMutation(SIGN_IN);
+
+  const handleSignIn = async () => {
+    try {
+      const { data } = await signIn({ variables: { email, password } });
+      const token = data.signIn.token;
+      // Store the token securely, e.g., using AsyncStorage
+      // Navigate the user to a different screen if successful
+    } catch (err) {
+      // Handle the error (wrong credentials, network error, etc.)
+      console.error("Error signing in:", err.message);
+    }
   };
 
   return (
@@ -50,11 +67,15 @@ const SignInForm = () => {
         <VStack space={3} mt="5">
           <FormControl>
             <FormControl.Label>Email ID</FormControl.Label>
-            <Input />
+            <Input value={email} onChangeText={setEmail} />
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              value={password}
+              onChangeText={setPassword}
+            />
             <Link
               _text={{
                 fontSize: "xs",
@@ -68,7 +89,12 @@ const SignInForm = () => {
               Forget Password?
             </Link>
           </FormControl>
-          <Button mt="2" colorScheme="indigo">
+          <Button
+            mt="2"
+            colorScheme="indigo"
+            onPress={handleSignIn}
+            isLoading={loading}
+          >
             Sign in
           </Button>
           <HStack mt="6" justifyContent="center">
