@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, NativeBaseProvider, Box } from "native-base";
+import { Center, Box } from "native-base";
 import SignInForm from "../Login/SignIn";
 
 const HomeScreen = () => {

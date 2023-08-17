@@ -1,3 +1,5 @@
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   Box,
   Text,
@@ -9,10 +11,17 @@ import {
   Button,
   HStack,
   Center,
-  NativeBaseProvider,
 } from "native-base";
 
 const SignInForm = () => {
+  const navigation = useNavigation();
+  const navigateToForgotPassword = () => {
+    navigation.navigate("ForgotPassword");
+  };
+  const navigateToSignUp = () => {
+    navigation.navigate("SignUp");
+  };
+
   return (
     <Center w="100%">
       <Box safeArea p="2" py="8" w="90%" maxW="290">
@@ -54,6 +63,7 @@ const SignInForm = () => {
               }}
               alignSelf="flex-end"
               mt="1"
+              onPress={navigateToForgotPassword}
             >
               Forget Password?
             </Link>
@@ -77,6 +87,7 @@ const SignInForm = () => {
                 fontWeight: "medium",
                 fontSize: "sm",
               }}
+              onPress={navigateToSignUp}
             >
               Sign Up
             </Link>

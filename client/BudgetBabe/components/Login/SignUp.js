@@ -1,15 +1,11 @@
 import {
   Box,
-  Text,
   Heading,
   VStack,
   FormControl,
   Input,
-  Link,
   Button,
-  HStack,
   Center,
-  NativeBaseProvider,
 } from "native-base";
 
 const SignUpForm = () => {
