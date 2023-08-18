@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { storeToken } from "../../utils/storage";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
-import { SIGN_IN } from "../../apollo/mutations/mutations";
+import { LOGIN } from "../../apollo/mutations/mutations";
 import {
   Box,
   Text,
@@ -17,24 +18,29 @@ import {
 
 const SignInForm = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signIn, { loading, error }] = useMutation(LOGIN);
+
   const navigateToForgotPassword = () => {
     navigation.navigate("ForgotPassword");
   };
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
   };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [signIn, { loading, error }] = useMutation(SIGN_IN);
 
   const handleSignIn = async () => {
     try {
       const { data } = await signIn({ variables: { email, password } });
-      const token = data.signIn.token;
-      // Store the token securely, e.g., using AsyncStorage
-      // Navigate the user to a different screen if successful
+
+      if (data && data.login && data.login.token) {
+        const token = data.login.token;
+        await storeToken(token);
+        navigation.navigate("Profile");
+      } else {
+        console.error("Unexpected response structure:", data);
+      }
     } catch (err) {
-      // Handle the error (wrong credentials, network error, etc.)
       console.error("Error signing in:", err.message);
     }
   };
