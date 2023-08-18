@@ -37,6 +37,8 @@ const SignInForm = () => {
         const token = data.login.token;
         await storeToken(token);
         navigation.navigate("Profile");
+        setEmail("");
+        setPassword("");
       } else {
         console.error("Unexpected response structure:", data);
       }
