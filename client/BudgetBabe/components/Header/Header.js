@@ -1,13 +1,19 @@
 import { Header } from "@rneui/themed";
-import CustomHomeButton from "./CustomHomeBtn";
+import MonthHistory from "../MonthHistory/MonthHistory";
 
 export default function CustomHeader() {
   return (
     <>
       <Header
-        leftComponent={{ icon: "menu", color: "#fff" }}
-        centerComponent={<CustomHomeButton />}
-        rightComponent={{ icon: "home", color: "#fff" }}
+        placement="left"
+        // statusBarProps={{ barStyle: "light-content" }}
+        barStyle="light-content" // or directly
+        leftComponent={<MonthHistory />}
+        containerStyle={{
+          backgroundColor: "#3D6DCC",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
       />
     </>
   );

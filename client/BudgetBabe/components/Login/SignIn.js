@@ -74,7 +74,7 @@ const SignInForm = () => {
 
         <VStack space={3} mt="5">
           <FormControl>
-            <FormControl.Label>Email ID</FormControl.Label>
+            <FormControl.Label>Email</FormControl.Label>
             <Input value={email} onChangeText={setEmail} />
           </FormControl>
           <FormControl>
