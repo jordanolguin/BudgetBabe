@@ -1,141 +1,145 @@
+import { useState, useEffect } from "react";
 import {
   Actionsheet,
   useDisclose,
   Center,
   Button,
-  Box,
   Text,
   ScrollView,
 } from "native-base";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 function MonthHistory() {
   const { isOpen, onOpen, onClose } = useDisclose();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Function to get the current month and year
-  const getCurrentMonthAndYear = () => {
-    const today = new Date();
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const month = monthNames[today.getMonth()];
-    const year = today.getFullYear();
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
+  const generateMonthsForYear = () => {
+    return Array.from({ length: 12 }, (_, i) => {
+      const month = monthNames[i];
+      return { month, year: currentYear.toString() };
+    });
+  };
+
+  const pastMonthsData = generateMonthsForYear();
+
+  const getBorderStyle = (isMonthPast, isMonthFuture) => {
+    const defaultStyle = {
+      borderWidth: 1,
+      borderColor: "gray",
+      borderRadius: 4,
+      padding: 8,
+      marginBottom: 8,
+      fontWeight: "normal",
+    };
+
+    const pastStyle = {
+      ...defaultStyle,
+      borderColor: "#FF5733",
+      fontWeight: "bold",
+    };
+
+    const futureStyle = {
+      ...defaultStyle,
+      borderColor: "#33FF57",
+      borderStyle: "dashed",
+    };
+
+    if (isMonthPast) {
+      return pastStyle;
+    } else if (isMonthFuture) {
+      return futureStyle;
+    } else {
+      return defaultStyle;
+    }
+  };
+
+  const getCurrentMonthAndYearText = () => {
+    const month = monthNames[currentMonth];
     return (
       <Text>
         <Text fontSize={22} fontWeight="bold" color="white">
           {month}
         </Text>{" "}
         <Text fontSize={22} color="white">
-          {year}
+          {currentYear}
         </Text>
+        <Icon
+          name={isMenuOpen ? "expand-less" : "expand-more"}
+          size={24}
+          color="white"
+        />
       </Text>
     );
   };
 
-  const generateMonthsForYear = () => {
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const months = [];
+  const renderMonthItem = (monthData, index) => {
+    const monthIndex = monthNames.indexOf(monthData.month);
+    const isMonthCurrent = monthIndex === currentMonth;
+    const isMonthPast = monthIndex < currentMonth;
+    const isMonthFuture = monthIndex > currentMonth;
 
-    //Generate months for the entire year
-    for (let i = 0; i < 12; i++) {
-      months.push({ month: monthNames[i], year: currentYear.toString() });
-    }
+    const borderStyle = getBorderStyle(isMonthPast, isMonthFuture);
 
-    return months;
+    return (
+      <Actionsheet.Item key={index} style={borderStyle}>
+        <Text>{`${monthData.month} ${monthData.year}`}</Text>
+        {isMonthCurrent && (
+          <Text style={{ marginTop: 4, fontWeight: "bold", color: "blue" }}>
+            Today
+          </Text>
+        )}
+      </Actionsheet.Item>
+    );
   };
 
-  const pastMonthsData = generateMonthsForYear();
-
-  const isMonthInPast = (month, year) => {
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const monthIndex = monthNames.indexOf(month);
-    if (
-      year < currentYear ||
-      (year === currentYear && monthIndex <= currentMonth)
-    ) {
-      return true;
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    if (!isMenuOpen) {
+      onOpen();
     } else {
-      return false;
+      onClose();
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isOpen]);
 
   return (
     <Center>
-      <Button onPress={onOpen} style={{ backgroundColor: "transparent" }}>
-        {getCurrentMonthAndYear()}
+      <Button
+        onPress={toggleMenu}
+        style={{ backgroundColor: "transparent", borderWidth: 0 }}
+      >
+        {getCurrentMonthAndYearText()}
       </Button>
       <Actionsheet isOpen={isOpen} onClose={onClose}>
         <Actionsheet.Content>
-          <Box w="100%" h={60} px={4} justifyContent="center">
-            <Text
-              fontSize="16"
-              color="gray.500"
-              _dark={{
-                color: "gray.300",
-              }}
-            >
-              Previous Months
-            </Text>
-          </Box>
           <ScrollView style={{ maxHeight: 300 }}>
-            {pastMonthsData.map((monthData, index) => (
-              <Actionsheet.Item
-                key={index}
-                style={{
-                  borderWidth: 1,
-                  borderColor: isMonthInPast(monthData.month, monthData.year)
-                    ? "solid"
-                    : "dashed",
-                  borderRadius: 4,
-                  padding: 8,
-                  marginBottom: 8,
-                }}
-              >
-                {`${monthData.month} ${monthData.year}`}
-              </Actionsheet.Item>
-            ))}
+            {pastMonthsData.map((monthData, index) =>
+              renderMonthItem(monthData, index)
+            )}
           </ScrollView>
         </Actionsheet.Content>
       </Actionsheet>
