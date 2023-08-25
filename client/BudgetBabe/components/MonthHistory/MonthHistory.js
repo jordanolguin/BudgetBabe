@@ -5,6 +5,7 @@ import {
   Center,
   Button,
   Text,
+  View,
   ScrollView,
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -82,11 +83,13 @@ function MonthHistory() {
         <Text fontSize={22} color="white">
           {currentYear}
         </Text>
-        <Icon
-          name={isMenuOpen ? "expand-less" : "expand-more"}
-          size={24}
-          color="white"
-        />
+        <View style={{ marginTop: 3 }}>
+          <Icon
+            name={isMenuOpen ? "expand-less" : "expand-more"}
+            size={24}
+            color="white"
+          />
+        </View>
       </Text>
     );
   };
