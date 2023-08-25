@@ -39,7 +39,7 @@ class CustomHomeButtonGroup extends Component {
           alignSelf: "center",
           backgroundColor: "#003366",
           borderColor: "#003366",
-          borderRadius: 4,
+          borderRadius: 8,
         }}
         buttonStyle={{ backgroundColor: "#003366", borderRadius: 4 }}
         selectedButtonStyle={{ backgroundColor: "#3D6DCC" }}
