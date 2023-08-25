@@ -6,7 +6,7 @@ import { NativeBaseProvider } from "native-base";
 import CustomHeader from "./components/Header/Header";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 import SignUpForm from "./components/Login/SignUp";
-import ProfileScreen from "./components/ProfileScreen/ProfileScreen";
+import ProfilePage from "./pages/ProfilePage";
 import ForgotPasswordForm from "./components/Login/ForgotPassword";
 import { ApolloProvider } from "@apollo/client";
 import client from "./apollo/client";
@@ -29,7 +29,11 @@ export default function App() {
               name="ForgotPassword"
               component={ForgotPasswordForm}
             />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen
+              name="Profile"
+              component={ProfilePage}
+              options={{ header: () => <CustomHeader /> }}
+            />
           </Stack.Navigator>
           <StatusBar style="auto" />
         </NavigationContainer>

@@ -34,8 +34,17 @@ const typeDefs = gql`
     savings: Float
   }
 
+  type MonthlySummary {
+    incomeStreams: [IncomeStream]
+    expenses: [Expense]
+    totalIncome: Float
+    totalExpense: Float
+    savings: Float
+  }
+
   type Query {
     userById(id: ID!): User
+    currentMonthSummary(userId: ID!): MonthlySummary!
     monthlyRecordByUser(userId: ID!, month: Int!, year: Int!): MonthlyRecord
   }
 

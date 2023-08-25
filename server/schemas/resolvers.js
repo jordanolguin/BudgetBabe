@@ -10,6 +10,36 @@ const resolvers = {
     monthlyRecordByUser: async (parent, { userId, month, year }) => {
       return await MonthlyRecord.findOne({ user: userId, month, year });
     },
+    currentMonthSummary: async (parent, { userId }) => {
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const totalIncome = user.incomeStreams.reduce(
+          (sum, stream) => sum + stream.amount,
+          0
+        );
+        const totalExpense = user.expenses.reduce(
+          (sum, expense) => sum + expense.amount,
+          0
+        );
+        const savings = totalIncome - totalExpense;
+
+        return {
+          incomeStreams: user.incomeStreams,
+          expenses: user.expenses,
+          totalIncome,
+          totalExpense,
+          savings,
+        };
+      } catch (error) {
+        throw new Error(
+          `Failed to fetch current month summary: ${error.message}`
+        );
+      }
+    },
   },
   Mutation: {
     addUser: async (parent, { username, email, password }) => {

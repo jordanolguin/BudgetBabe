@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { storeToken } from "../../utils/storage";
+import AuthService from "../../utils/storage";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../apollo/mutations/mutations";
@@ -35,7 +35,7 @@ const SignInForm = () => {
 
       if (data && data.login && data.login.token) {
         const token = data.login.token;
-        await storeToken(token);
+        await AuthService.storeToken(token);
         navigation.navigate("Profile");
         setEmail("");
         setPassword("");
