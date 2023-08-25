@@ -20,9 +20,11 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
-              name="Home"
+              name="Budget Babe"
               component={HomeScreen}
-              options={{ header: () => <CustomHeader /> }}
+              options={{
+                header: () => <CustomHeader />,
+              }}
             />
             <Stack.Screen name="SignUp" component={SignUpForm} />
             <Stack.Screen
@@ -35,6 +37,7 @@ export default function App() {
               options={{ header: () => <CustomHeader /> }}
             />
           </Stack.Navigator>
+
           <StatusBar style="auto" />
         </NavigationContainer>
       </NativeBaseProvider>

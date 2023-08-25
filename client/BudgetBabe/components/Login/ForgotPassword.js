@@ -23,6 +23,7 @@ const ForgotPasswordForm = () => {
             justifyContent: "flex-start",
             width: "100%",
             maxWidth: 300,
+            marginTop: 100,
           }}
         >
           <Heading mb="3">Forgot Password</Heading>
@@ -40,7 +41,7 @@ const ForgotPasswordForm = () => {
 
 const ForgotPasswordScreen = () => {
   return (
-    <Center flex={1} px="3">
+    <Center flex={1} px="3" justifyContent="flex-start">
       <ForgotPasswordForm />
     </Center>
   );
