@@ -4,7 +4,7 @@ import CustomHomeButtonGroup from "./CustomHomeBtn";
 import { View } from "react-native";
 import DropDownMenu from "./DropDownMenu";
 
-export default function CustomHeader() {
+export default function CustomHeader({ onTabSelect, initialIndex }) {
   return (
     <Header
       placement="left"
@@ -26,7 +26,10 @@ export default function CustomHeader() {
           <View style={{ width: 130 }} />
           <DropDownMenu />
         </View>
-        <CustomHomeButtonGroup />
+        <CustomHomeButtonGroup
+          onTabSelect={onTabSelect}
+          initialIndex={initialIndex}
+        />
       </View>
     </Header>
   );

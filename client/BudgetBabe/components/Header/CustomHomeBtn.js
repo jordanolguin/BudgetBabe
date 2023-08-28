@@ -3,16 +3,19 @@ import { Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 
 class CustomHomeButtonGroup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      selectedIndex: 2,
+      selectedIndex: this.props.initialIndex || 0,
     };
     this.updateIndex = this.updateIndex.bind(this);
   }
 
   updateIndex(selectedIndex) {
     this.setState({ selectedIndex });
+    if (this.props.onTabSelect) {
+      this.props.onTabSelect(selectedIndex);
+    }
   }
 
   render() {

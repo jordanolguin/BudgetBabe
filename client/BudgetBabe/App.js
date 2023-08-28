@@ -34,7 +34,22 @@ export default function App() {
             <Stack.Screen
               name="Profile"
               component={ProfilePage}
-              options={{ header: () => <CustomHeader /> }}
+              options={{
+                header: (props) => {
+                  const initialIndex = 0;
+                  const onTabSelect = (selectedIndex) => {
+                    props.navigation.setParams({ selectedTab: selectedIndex });
+                  };
+
+                  return (
+                    <CustomHeader
+                      {...props}
+                      initialIndex={initialIndex}
+                      onTabSelect={onTabSelect}
+                    />
+                  );
+                },
+              }}
             />
           </Stack.Navigator>
 
