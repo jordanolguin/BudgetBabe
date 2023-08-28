@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { Button, Input, VStack, Text } from "native-base";
 import { useMutation } from "@apollo/client";
-import { ADD_INCOME_TO_USER } from "../../apollo/mutations/mutations";
+import { ADD_EXPENSE_TO_USER } from "../../apollo/mutations/mutations";
 
-const AddIncome = ({ userId, onIncomeAdded }) => {
-  const [source, setSource] = useState("");
+const AddExpense = ({ userId, onExpenseAdded }) => {
+  const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
 
-  const [addIncome, { error }] = useMutation(ADD_INCOME_TO_USER, {
+  const [addExpense, { error }] = useMutation(ADD_EXPENSE_TO_USER, {
     onCompleted: () => {
-      onIncomeAdded();
-      setSource("");
+      onExpenseAdded();
+      setDescription("");
       setAmount("");
     },
   });
 
   const handleSubmit = async () => {
     try {
-      await addIncome({
+      await addExpense({
         variables: {
           userId: userId,
-          source: source,
+          description: description,
           amount: parseFloat(amount),
         },
       });
@@ -33,9 +33,9 @@ const AddIncome = ({ userId, onIncomeAdded }) => {
     <VStack space={2} marginTop={12} marginX={16} alignItems="flex-start">
       {error && <Text>Error: {error.message}</Text>}
       <Input
-        value={source}
-        onChangeText={(text) => setSource(text)}
-        placeholder="Source of Income"
+        value={description}
+        onChangeText={(text) => setDescription(text)}
+        placeholder="Description of Expense"
       />
       <Input
         value={amount}
@@ -43,9 +43,9 @@ const AddIncome = ({ userId, onIncomeAdded }) => {
         placeholder="Amount"
         keyboardType="numeric"
       />
-      <Button onPress={handleSubmit}>Add Income</Button>
+      <Button onPress={handleSubmit}>Add Expense</Button>
     </VStack>
   );
 };
 
-export default AddIncome;
+export default AddExpense;
