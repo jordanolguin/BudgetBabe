@@ -36,7 +36,7 @@ export default function App() {
               component={ProfilePage}
               options={{
                 header: (props) => {
-                  const initialIndex = 0;
+                  const initialIndex = null;
                   const onTabSelect = (selectedIndex) => {
                     props.navigation.setParams({ selectedTab: selectedIndex });
                   };

@@ -6,7 +6,7 @@ class CustomHomeButtonGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex: this.props.initialIndex || 0,
+      selectedIndex: this.props.initialIndex || null,
     };
     this.updateIndex = this.updateIndex.bind(this);
   }

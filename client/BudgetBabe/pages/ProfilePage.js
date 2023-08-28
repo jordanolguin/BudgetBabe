@@ -3,6 +3,7 @@ import { Center, Text } from "native-base";
 import { PlannedIncome, IncomeStreams } from "../components/Income";
 import { ExpenseList, TotalExpenses } from "../components/Expense";
 import { Savings } from "../components/Remaining";
+import WelcomeMessage from "../components/Welcome/WelcomeMessage";
 import AuthService from "../utils/storage";
 import { useQuery } from "@apollo/client";
 import { CURRENT_MONTH_SUMMARY } from "../apollo/queries/queries";
@@ -63,7 +64,9 @@ const ProfilePage = ({ route }) => {
       displayedComponent = <Savings data={currentMonthSummary.savings} />;
       break;
     default:
-      displayedComponent = null;
+      displayedComponent = (
+        <WelcomeMessage username={profile?.data?.username || "User"} />
+      );
   }
   return <Center>{displayedComponent}</Center>;
 };
