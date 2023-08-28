@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Center, Text } from "native-base";
+import { Center, Text, Box, HStack } from "native-base";
 import { PlannedIncome, IncomeStreams } from "../components/Income";
 import { ExpenseList, TotalExpenses } from "../components/Expense";
 import { Savings } from "../components/Remaining";
@@ -46,22 +46,26 @@ const ProfilePage = ({ route }) => {
   switch (selectedTab) {
     case 0:
       displayedComponent = (
-        <>
+        <HStack space={4} marginTop={4} alignItems="flex-start">
           <PlannedIncome data={currentMonthSummary.totalIncome} />
           <IncomeStreams data={currentMonthSummary.incomeStreams} />
-        </>
+        </HStack>
       );
       break;
     case 1:
       displayedComponent = (
-        <>
+        <HStack space={4} marginTop={4} alignItems="flex-start">
           <TotalExpenses data={currentMonthSummary.totalExpense} />
           <ExpenseList data={currentMonthSummary.expenses} />
-        </>
+        </HStack>
       );
       break;
     case 2:
-      displayedComponent = <Savings data={currentMonthSummary.savings} />;
+      displayedComponent = (
+        <Box marginTop={4}>
+          <Savings data={currentMonthSummary.savings} />
+        </Box>
+      );
       break;
     default:
       displayedComponent = (

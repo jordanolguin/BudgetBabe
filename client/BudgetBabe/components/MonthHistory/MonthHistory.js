@@ -45,7 +45,7 @@ function MonthHistory() {
   const getBorderStyle = (isMonthPast, isMonthFuture) => {
     const defaultStyle = {
       borderWidth: 1,
-      borderColor: "gray",
+      borderColor: "#3D6DCC",
       borderRadius: 4,
       padding: 8,
       marginBottom: 8,
@@ -54,13 +54,13 @@ function MonthHistory() {
 
     const pastStyle = {
       ...defaultStyle,
-      borderColor: "#FF5733",
+      borderColor: "#003366",
       fontWeight: "bold",
     };
 
     const futureStyle = {
       ...defaultStyle,
-      borderColor: "#33FF57",
+      borderColor: "#003366",
       borderStyle: "dashed",
     };
 
@@ -106,7 +106,7 @@ function MonthHistory() {
       <Actionsheet.Item key={index} style={borderStyle}>
         <Text>{`${monthData.month} ${monthData.year}`}</Text>
         {isMonthCurrent && (
-          <Text style={{ marginTop: 4, fontWeight: "bold", color: "blue" }}>
+          <Text style={{ marginTop: 4, fontWeight: "bold", color: "#3D6DCC" }}>
             Today
           </Text>
         )}
