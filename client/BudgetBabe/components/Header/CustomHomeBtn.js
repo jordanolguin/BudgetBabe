@@ -19,8 +19,8 @@ class CustomHomeButtonGroup extends Component {
   }
 
   render() {
-    const component1 = () => <Text style={{ color: "white" }}>Planned</Text>;
-    const component2 = () => <Text style={{ color: "white" }}>Spent</Text>;
+    const component1 = () => <Text style={{ color: "white" }}>Income</Text>;
+    const component2 = () => <Text style={{ color: "white" }}>Expense</Text>;
     const component3 = () => <Text style={{ color: "white" }}>Remaining</Text>;
 
     const buttons = [

@@ -138,7 +138,7 @@ function MonthHistory() {
         {getCurrentMonthAndYearText()}
       </Button>
       <Actionsheet isOpen={isOpen} onClose={onClose}>
-        <Actionsheet.Content>
+        <Actionsheet.Content style={{ backgroundColor: "#E6E6FA" }}>
           <ScrollView style={{ maxHeight: 300 }}>
             {pastMonthsData.map((monthData, index) =>
               renderMonthItem(monthData, index)

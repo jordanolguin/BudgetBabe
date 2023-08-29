@@ -11,10 +11,11 @@ const Savings = ({ data }) => {
         borderColor: "#003366",
         borderWidth: 2,
         alignItems: "center",
+        backgroundColor: "#E6E6FA",
       }}
     >
       <Heading size="md" style={{ textAlign: "center", color: "#3D6DCC" }}>
-        Remaining Capital
+        Remaining
       </Heading>
       <View
         style={{
@@ -25,7 +26,16 @@ const Savings = ({ data }) => {
           marginTop: 5,
         }}
       />
-      <Text style={{ textAlign: "left", color: "#3D6DCC" }}>${data}</Text>{" "}
+      <Text
+        style={{
+          textAlign: "left",
+          color: "#3D6DCC",
+          fontSize: 20,
+          paddingTop: 10,
+        }}
+      >
+        ${data}
+      </Text>{" "}
     </Box>
   );
 };

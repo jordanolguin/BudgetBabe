@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Input, VStack, Text, Box, Heading, View } from "native-base";
+import {
+  Button,
+  Input,
+  VStack,
+  Text,
+  Box,
+  Heading,
+  View,
+  HStack,
+} from "native-base";
 import {
   Animated,
   TouchableWithoutFeedback,
@@ -8,6 +17,7 @@ import {
 } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ADD_EXPENSE_TO_USER } from "../../apollo/mutations/mutations";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const AddExpense = ({ userId, onExpenseAdded }) => {
   const [description, setDescription] = useState("");
@@ -50,7 +60,7 @@ const AddExpense = ({ userId, onExpenseAdded }) => {
         }}
       >
         <Heading size="md" style={{ textAlign: "center", color: "#3D6DCC" }}>
-          Add Expense
+          - Expense
         </Heading>
         <View
           style={{
@@ -67,15 +77,25 @@ const AddExpense = ({ userId, onExpenseAdded }) => {
             <Input
               value={description}
               onChangeText={(text) => setDescription(text)}
-              placeholder="Description of Expense"
+              placeholder="Expense Item"
+              style={{ backgroundColor: "#fff" }}
             />
-            <Input
-              value={amount}
-              onChangeText={(text) => setAmount(text)}
-              placeholder="Amount"
-              keyboardType="numeric"
-            />
-            <Button onPress={handleSubmit}>Add Expense</Button>
+            <HStack space={2} alignItems="center">
+              <Input
+                value={amount}
+                onChangeText={(text) => setAmount(text)}
+                placeholder="Amount"
+                keyboardType="numeric"
+                style={{ backgroundColor: "#fff" }}
+                w="67%"
+              />
+              <Button
+                onPress={handleSubmit}
+                style={{ backgroundColor: "#3D6DCC" }}
+              >
+                <Icon name="minus" size={12} color="#fff" />
+              </Button>
+            </HStack>
           </VStack>
         </ScrollView>
       </Box>

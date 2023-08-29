@@ -26,7 +26,16 @@ const TotalExpenses = ({ data }) => {
           marginTop: 5,
         }}
       />
-      <Text style={{ textAlign: "left", color: "#3D6DCC" }}>${data}</Text>
+      <Text
+        style={{
+          textAlign: "left",
+          color: "#3D6DCC",
+          fontSize: 20,
+          paddingTop: 10,
+        }}
+      >
+        ${data}
+      </Text>
     </Box>
   );
 };

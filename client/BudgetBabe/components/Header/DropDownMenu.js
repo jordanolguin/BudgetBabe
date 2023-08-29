@@ -30,7 +30,15 @@ export default function DropDownMenu({ onSelect }) {
       >
         <View>
           <TouchableOpacity onPress={() => handleOptionSelect("Logout")}>
-            <Text style={{ padding: 10 }}>Logout</Text>
+            <Text
+              style={{
+                padding: 3,
+                fontSize: 18,
+                color: "#3D6DCC",
+              }}
+            >
+              Logout
+            </Text>
           </TouchableOpacity>
         </View>
       </Overlay>
@@ -40,7 +48,7 @@ export default function DropDownMenu({ onSelect }) {
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: "#fff",
+    backgroundColor: "#E6E6FA",
     width: "80%",
     position: "absolute",
     top: 100,

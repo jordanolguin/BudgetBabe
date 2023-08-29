@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, VStack, Text, Box, Heading, View } from "native-base";
+import {
+  Button,
+  Input,
+  VStack,
+  Text,
+  Box,
+  Heading,
+  View,
+  HStack,
+} from "native-base";
 import {
   Animated,
   TouchableWithoutFeedback,
@@ -8,6 +17,7 @@ import {
 } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ADD_INCOME_TO_USER } from "../../apollo/mutations/mutations";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const AddIncome = ({ userId, onIncomeAdded }) => {
   const [source, setSource] = useState("");
@@ -50,7 +60,7 @@ const AddIncome = ({ userId, onIncomeAdded }) => {
         }}
       >
         <Heading size="md" style={{ textAlign: "center", color: "#3D6DCC" }}>
-          Add Income
+          + Income
         </Heading>
         <View
           style={{
@@ -67,15 +77,25 @@ const AddIncome = ({ userId, onIncomeAdded }) => {
             <Input
               value={source}
               onChangeText={(text) => setSource(text)}
-              placeholder="Source of Income"
+              placeholder="Income Item"
+              style={{ backgroundColor: "#fff" }}
             />
-            <Input
-              value={amount}
-              onChangeText={(text) => setAmount(text)}
-              placeholder="Amount"
-              keyboardType="numeric"
-            />
-            <Button onPress={handleSubmit}>Add Income</Button>
+            <HStack space={2} alignItems="center">
+              <Input
+                value={amount}
+                onChangeText={(text) => setAmount(text)}
+                placeholder="Amount"
+                keyboardType="numeric"
+                style={{ backgroundColor: "#fff" }}
+                w="67%"
+              />
+              <Button
+                onPress={handleSubmit}
+                style={{ backgroundColor: "#3D6DCC" }}
+              >
+                <Icon name="plus" size={12} color="#fff" />
+              </Button>
+            </HStack>
           </VStack>
         </ScrollView>
       </Box>
