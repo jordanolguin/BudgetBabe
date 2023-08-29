@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Center, Text, Box, HStack } from "native-base";
+import { LinearGradient } from "expo-linear-gradient";
 import { PlannedIncome, IncomeStreams, AddIncome } from "../components/Income";
 import { ExpenseList, TotalExpenses, AddExpense } from "../components/Expense";
 import { Savings } from "../components/Remaining";
@@ -54,28 +55,28 @@ const ProfilePage = ({ route }) => {
     case 0:
       displayedComponent = (
         <>
-          <HStack space={4} marginTop={4} alignItems="flex-start">
+          <HStack space={4} marginTop={8} alignItems="flex-start">
             <PlannedIncome data={currentMonthSummary.totalIncome} />
-            <IncomeStreams data={currentMonthSummary.incomeStreams} />
+            <AddIncome
+              userId={profile?.data?._id}
+              onIncomeAdded={onIncomeAdded}
+            />
           </HStack>
-          <AddIncome
-            userId={profile?.data?._id}
-            onIncomeAdded={onIncomeAdded}
-          />
+          <IncomeStreams data={currentMonthSummary.incomeStreams} />
         </>
       );
       break;
     case 1:
       displayedComponent = (
         <>
-          <HStack space={4} marginTop={4} alignItems="flex-start">
+          <HStack space={4} marginTop={8} alignItems="flex-start">
             <TotalExpenses data={currentMonthSummary.totalExpense} />
-            <ExpenseList data={currentMonthSummary.expenses} />
+            <AddExpense
+              userId={profile?.data?._id}
+              onExpenseAdded={onExpenseAdded}
+            />
           </HStack>
-          <AddExpense
-            userId={profile?.data?._id}
-            onExpenseAdded={onExpenseAdded}
-          />
+          <ExpenseList data={currentMonthSummary.expenses} />
         </>
       );
       break;
@@ -91,7 +92,14 @@ const ProfilePage = ({ route }) => {
         <WelcomeMessage username={profile?.data?.username || "User"} />
       );
   }
-  return <Center>{displayedComponent}</Center>;
+  return (
+    <LinearGradient
+      colors={["#003366", "#006699", "#0099CC"]}
+      style={{ flex: 1 }}
+    >
+      <Center>{displayedComponent}</Center>
+    </LinearGradient>
+  );
 };
 
 export default ProfilePage;

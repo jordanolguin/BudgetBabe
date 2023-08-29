@@ -11,6 +11,7 @@ const PlannedIncome = ({ data }) => {
         borderColor: "#003366",
         borderWidth: 2,
         alignItems: "center",
+        backgroundColor: "#E6E6FA",
       }}
     >
       <Heading size="md" style={{ textAlign: "center", color: "#3D6DCC" }}>
