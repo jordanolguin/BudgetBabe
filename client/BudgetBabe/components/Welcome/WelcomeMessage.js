@@ -46,7 +46,7 @@ const WelcomeMessage = ({ username }) => {
       easing: Easing.ease,
       useNativeDriver: true,
     }).start();
-  }, [fadeAnim, affirmations]);
+  }, [fadeAnim]);
 
   return (
     <Center>

@@ -1,8 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { Text, Box, Heading, ScrollView, HStack, Spacer } from "native-base";
 import { View, Animated } from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useMutation } from "@apollo/client";
+import { REMOVE_EXPENSE } from "../../apollo/mutations/mutations";
 
-const ExpenseList = ({ data }) => {
+const ExpenseList = ({ data, userId, onExpenseRemoved }) => {
+  const [removeExpenseFromUser, { loading, error }] = useMutation(
+    REMOVE_EXPENSE,
+    {
+      onCompleted: () => {
+        onExpenseRemoved();
+      },
+    }
+  );
   const reversedData = [...data].reverse();
   const slideAnim = useRef(data.map(() => new Animated.Value(-300))).current;
 
@@ -27,6 +38,19 @@ const ExpenseList = ({ data }) => {
       )
     ).start();
   }, [reversedData]);
+
+  const handleDelete = async (userId, expenseId) => {
+    try {
+      await removeExpenseFromUser({
+        variables: {
+          userId,
+          expenseId,
+        },
+      });
+    } catch (err) {
+      console.error("Error deleting expense:", err);
+    }
+  };
   return (
     <Box
       style={{
@@ -79,6 +103,12 @@ const ExpenseList = ({ data }) => {
               </Text>
               <Spacer />
               <Text style={{ color: "#3D6DCC" }}>${expense.amount}</Text>
+              <FontAwesome
+                name="trash-o"
+                size={24}
+                color="red"
+                onPress={() => handleDelete(userId, expense.id)}
+              />
             </HStack>
           </Animated.View>
         ))}

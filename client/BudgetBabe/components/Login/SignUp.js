@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { Toast, useToast } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { ADD_USER } from "../../apollo/mutations/mutations";
 
@@ -21,6 +22,8 @@ const SignUpForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const toast = useToast();
+
   const [addUser] = useMutation(ADD_USER);
 
   const handleSignUp = async () => {
@@ -33,15 +36,20 @@ const SignUpForm = () => {
       const { data } = await addUser({
         variables: { username, email, password },
       });
-      navigation.navigate("Home");
+      navigation.navigate("Budget Babe");
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
 
-      // handle success, perhaps navigate the user to the login screen or display a success message
+      toast.show({
+        title: "Success",
+        description: "You have successfully signed up!",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
     } catch (err) {
-      // Handle error, you can set the error message to display to the user
       setErrorMessage(err.message);
     }
   };
@@ -72,7 +80,7 @@ const SignUpForm = () => {
         </Heading>
         <VStack space={3} mt="5">
           <FormControl>
-            <FormControl.Label>Username</FormControl.Label>
+            <FormControl.Label>First Name</FormControl.Label>
             <Input value={username} onChangeText={setUsername} />
           </FormControl>
           <FormControl>

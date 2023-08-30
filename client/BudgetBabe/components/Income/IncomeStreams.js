@@ -1,8 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { Text, Box, Heading, ScrollView, HStack, Spacer } from "native-base";
 import { View, Animated } from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useMutation } from "@apollo/client";
+import { REMOVE_INCOME } from "../../apollo/mutations/mutations";
 
-const IncomeStreams = ({ data }) => {
+const IncomeStreams = ({ data, userId, onIncomeRemoved }) => {
+  const [removeIncomeFromUser, { loading, error }] = useMutation(
+    REMOVE_INCOME,
+    {
+      onCompleted: () => {
+        onIncomeRemoved();
+      },
+    }
+  );
   const reversedData = [...data].reverse();
   const slideAnim = useRef(data.map(() => new Animated.Value(-300))).current;
 
@@ -26,6 +37,19 @@ const IncomeStreams = ({ data }) => {
       )
     ).start();
   }, [reversedData]);
+
+  const handleDelete = async (userId, incomeId) => {
+    try {
+      await removeIncomeFromUser({
+        variables: {
+          userId,
+          incomeId,
+        },
+      });
+    } catch (err) {
+      console.error("Error deleting income stream:", err);
+    }
+  };
   return (
     <Box
       style={{
@@ -76,6 +100,12 @@ const IncomeStreams = ({ data }) => {
               <Text style={{ flex: 1, color: "#3D6DCC" }}>{stream.source}</Text>
               <Spacer />
               <Text style={{ color: "#3D6DCC" }}>${stream.amount}</Text>
+              <FontAwesome
+                name="trash-o"
+                size={24}
+                color="red"
+                onPress={() => handleDelete(userId, stream.id)}
+              />
             </HStack>
           </Animated.View>
         ))}

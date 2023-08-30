@@ -58,3 +58,18 @@ export const ADD_INCOME_TO_USER = gql`
     }
   }
 `;
+export const REMOVE_INCOME = gql`
+  mutation RemoveIncomeFromUser($userId: ID!, $incomeId: ID!) {
+    removeIncomeFromUser(userId: $userId, incomeId: $incomeId) {
+      id
+    }
+  }
+`;
+
+export const REMOVE_EXPENSE = gql`
+  mutation RemoveExpenseFromUser($userId: ID!, $expenseId: ID!) {
+    removeExpenseFromUser(userId: $userId, expenseId: $expenseId) {
+      id
+    }
+  }
+`;

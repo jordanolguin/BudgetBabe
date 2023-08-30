@@ -38,10 +38,7 @@ const ProfilePage = ({ route }) => {
     skip: !profile,
   });
 
-  const onIncomeAdded = () => {
-    refetch();
-  };
-  const onExpenseAdded = () => {
+  const onRefresh = () => {
     refetch();
   };
 
@@ -57,12 +54,13 @@ const ProfilePage = ({ route }) => {
         <>
           <HStack space={4} marginTop={8} alignItems="flex-start">
             <PlannedIncome data={currentMonthSummary.totalIncome} />
-            <AddIncome
-              userId={profile?.data?._id}
-              onIncomeAdded={onIncomeAdded}
-            />
+            <AddIncome userId={profile?.data?._id} onIncomeAdded={onRefresh} />
           </HStack>
-          <IncomeStreams data={currentMonthSummary.incomeStreams} />
+          <IncomeStreams
+            data={currentMonthSummary.incomeStreams}
+            userId={profile?.data?._id}
+            onIncomeRemoved={onRefresh}
+          />
         </>
       );
       break;
@@ -73,10 +71,14 @@ const ProfilePage = ({ route }) => {
             <TotalExpenses data={currentMonthSummary.totalExpense} />
             <AddExpense
               userId={profile?.data?._id}
-              onExpenseAdded={onExpenseAdded}
+              onExpenseAdded={onRefresh}
             />
           </HStack>
-          <ExpenseList data={currentMonthSummary.expenses} />
+          <ExpenseList
+            data={currentMonthSummary.expenses}
+            userId={profile?.data?._id}
+            onExpenseRemoved={onRefresh}
+          />
         </>
       );
       break;
