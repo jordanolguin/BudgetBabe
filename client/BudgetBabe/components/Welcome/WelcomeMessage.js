@@ -84,13 +84,7 @@ const WelcomeMessage = ({ username }) => {
             />
           </Animated.View>
         </Box>
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          color="#fff"
-          marginTop={2}
-          textAlign="center"
-        >
+        <Text fontSize="2xl" color="#fff" marginTop={2} textAlign="center">
           {affirmation}
         </Text>
       </Animated.View>

@@ -14,8 +14,10 @@ export default function DropDownMenu({ navigation }) {
     if (option === "Logout") {
       AuthService.logout();
       navigation.navigate("Budget Babe");
+    } else if (option === "Affirmations") {
+      navigation.navigate("Profile", { selectedTab: null });
+      toggleDropdown();
     }
-    toggleDropdown();
   };
 
   return (
@@ -33,6 +35,27 @@ export default function DropDownMenu({ navigation }) {
         ]}
       >
         <View>
+          <TouchableOpacity onPress={() => handleOptionSelect("Affirmations")}>
+            <Text
+              style={{
+                padding: 3,
+                fontSize: 18,
+                color: "#3D6DCC",
+              }}
+            >
+              Affirmations
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#003366",
+              width: "106%",
+              alignSelf: "center",
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          />
           <TouchableOpacity onPress={() => handleOptionSelect("Logout")}>
             <Text
               style={{
@@ -57,6 +80,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 100,
     left: "13%",
+    borderWidth: 1,
+    borderColor: "#003366",
     borderRadius: 10,
     zIndex: 1,
   },
