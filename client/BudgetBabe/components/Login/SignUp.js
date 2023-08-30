@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { LinearGradient } from "expo-linear-gradient";
 import { Toast, useToast } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { ADD_USER } from "../../apollo/mutations/mutations";
@@ -55,60 +56,74 @@ const SignUpForm = () => {
   };
 
   return (
-    <Center w="100%">
-      <Box safeArea p="2" w="90%" maxW="290" py="8">
-        <Heading
-          size="lg"
-          color="coolGray.800"
-          _dark={{
-            color: "warmGray.50",
-          }}
-          fontWeight="semibold"
+    <LinearGradient
+      colors={["#003366", "#006699", "#0099CC"]}
+      style={{ flex: 1 }}
+    >
+      <Center w="100%">
+        <Box
+          safeArea
+          p="2"
+          w="90%"
+          maxW="300"
+          py="8"
+          marginTop={10}
+          backgroundColor={"white"}
+          borderRadius={10}
         >
-          Welcome
-        </Heading>
-        <Heading
-          mt="1"
-          color="coolGray.600"
-          _dark={{
-            color: "warmGray.200",
-          }}
-          fontWeight="medium"
-          size="xs"
-        >
-          Sign up to continue!
-        </Heading>
-        <VStack space={3} mt="5">
-          <FormControl>
-            <FormControl.Label>First Name</FormControl.Label>
-            <Input value={username} onChangeText={setUsername} />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Email</FormControl.Label>
-            <Input value={email} onChangeText={setEmail} />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
-            <Input
-              type="password"
-              value={password}
-              onChangeText={setPassword}
-            />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Confirm Password</FormControl.Label>
-            <Input
-              type="password"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-          </FormControl>
-          <Button mt="2" colorScheme="indigo" onPress={handleSignUp}>
-            Sign up
-          </Button>
-        </VStack>
-      </Box>
-    </Center>
+          <Heading
+            size="lg"
+            color="coolGray.800"
+            _dark={{
+              color: "warmGray.50",
+            }}
+            fontWeight="semibold"
+          >
+            Welcome
+          </Heading>
+          <Heading
+            mt="1"
+            color="coolGray.600"
+            _dark={{
+              color: "warmGray.200",
+            }}
+            fontWeight="medium"
+            size="xs"
+          >
+            Sign up to continue!
+          </Heading>
+          <VStack space={3} mt="5">
+            <FormControl>
+              <FormControl.Label>First Name</FormControl.Label>
+              <Input value={username} onChangeText={setUsername} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Email</FormControl.Label>
+              <Input value={email} onChangeText={setEmail} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input
+                type="password"
+                value={password}
+                onChangeText={setPassword}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Confirm Password</FormControl.Label>
+              <Input
+                type="password"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+            </FormControl>
+            <Button mt="2" backgroundColor="#3D6DCC" onPress={handleSignUp}>
+              Sign up
+            </Button>
+          </VStack>
+        </Box>
+      </Center>
+    </LinearGradient>
   );
 };
 

@@ -49,7 +49,15 @@ const SignInForm = () => {
 
   return (
     <Center w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
+      <Box
+        safeArea
+        p="2"
+        py="8"
+        w="90%"
+        maxW="300"
+        backgroundColor={"white"}
+        borderRadius={10}
+      >
         <Heading
           size="lg"
           fontWeight="600"
@@ -99,7 +107,7 @@ const SignInForm = () => {
           </FormControl>
           <Button
             mt="2"
-            colorScheme="indigo"
+            backgroundColor="#3D6DCC"
             onPress={handleSignIn}
             isLoading={loading}
           >
