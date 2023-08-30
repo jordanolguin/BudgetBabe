@@ -19,13 +19,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Budget Babe"
-              component={HomeScreen}
-              options={{
-                header: () => <CustomHeader />,
-              }}
-            />
+            <Stack.Screen name="Budget Babe" component={HomeScreen} />
             <Stack.Screen name="SignUp" component={SignUpForm} />
             <Stack.Screen
               name="ForgotPassword"
@@ -46,6 +40,7 @@ export default function App() {
                       {...props}
                       initialIndex={initialIndex}
                       onTabSelect={onTabSelect}
+                      navigation={props.navigation}
                     />
                   );
                 },

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon, Text, Overlay } from "react-native-elements";
+import AuthService from "../../utils/storage";
 
-export default function DropDownMenu({ onSelect }) {
+export default function DropDownMenu({ navigation }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -10,7 +11,10 @@ export default function DropDownMenu({ onSelect }) {
   };
 
   const handleOptionSelect = (option) => {
-    onSelect(option);
+    if (option === "Logout") {
+      AuthService.logout();
+      navigation.navigate("Budget Babe");
+    }
     toggleDropdown();
   };
 

@@ -4,7 +4,11 @@ import CustomHomeButtonGroup from "./CustomHomeBtn";
 import { View } from "react-native";
 import DropDownMenu from "./DropDownMenu";
 
-export default function CustomHeader({ onTabSelect, initialIndex }) {
+export default function CustomHeader({
+  onTabSelect,
+  initialIndex,
+  navigation,
+}) {
   return (
     <Header
       placement="left"
@@ -24,7 +28,7 @@ export default function CustomHeader({ onTabSelect, initialIndex }) {
         >
           <MonthHistory />
           <View style={{ width: 130 }} />
-          <DropDownMenu />
+          <DropDownMenu navigation={navigation} />
         </View>
         <CustomHomeButtonGroup
           onTabSelect={onTabSelect}

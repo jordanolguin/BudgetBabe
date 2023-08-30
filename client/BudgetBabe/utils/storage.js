@@ -24,6 +24,14 @@ class AuthService {
     return !!token;
   }
 
+  async logout() {
+    try {
+      await AsyncStorage.removeItem("userToken");
+    } catch (error) {
+      console.error("Error removing token", error);
+    }
+  }
+
   async getToken() {
     try {
       return await AsyncStorage.getItem("userToken");
