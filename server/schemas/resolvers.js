@@ -92,7 +92,10 @@ const resolvers = {
       );
     },
 
-    createMonthlyRecord: async (parent, { userId, month, year }) => {
+    stashAndResetCurrentMonth: async (parent, { userId, month, year }) => {
+      console.log(
+        `Stashing and resetting monthly data for User: ${userId}, Month: ${month}, Year: ${year}`
+      );
       try {
         // Check if record already exists for the given month and year
         const existingRecord = await MonthlyRecord.findOne({
@@ -124,16 +127,28 @@ const resolvers = {
           user: userId,
           month,
           year,
-          incomeStreams: [...user.incomeStreams],
-          expenses: [...user.expenses],
+          incomeStreams: user.incomeStreams,
+          expenses: user.expenses,
           totalIncome: totalIncome,
           totalExpense: totalExpense,
           savings: savings,
         };
 
-        return await MonthlyRecord.create(newRecord);
+        // Create the MonthlyRecord
+        await MonthlyRecord.create(newRecord);
+
+        // Reset the user's data for the current month
+        await User.findByIdAndUpdate(
+          userId,
+          { $set: { incomeStreams: [], expenses: [] } },
+          { new: true }
+        );
+
+        return newRecord;
       } catch (error) {
-        throw new Error(`Failed to create monthly record: ${error.message}`);
+        throw new Error(
+          `Failed to stash and reset monthly data: ${error.message}`
+        );
       }
     },
   },

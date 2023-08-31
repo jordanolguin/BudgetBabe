@@ -3,7 +3,7 @@ import { Center, Text, Box, HStack } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { PlannedIncome, IncomeStreams, AddIncome } from "../components/Income";
 import { ExpenseList, TotalExpenses, AddExpense } from "../components/Expense";
-import { Savings } from "../components/Remaining";
+import { Savings, Stash } from "../components/Remaining";
 import WelcomeMessage from "../components/Welcome/WelcomeMessage";
 import AuthService from "../utils/storage";
 import { useQuery } from "@apollo/client";
@@ -84,9 +84,12 @@ const ProfilePage = ({ route }) => {
       break;
     case 2:
       displayedComponent = (
-        <Box marginTop={4}>
-          <Savings data={currentMonthSummary.savings} />
-        </Box>
+        <>
+          <HStack space={4} marginTop={8} alignItems="flex-start">
+            <Savings data={currentMonthSummary.savings} />
+            <Stash userId={profile?.data?._id} onMonthAdded={onRefresh} />
+          </HStack>
+        </>
       );
       break;
     default:

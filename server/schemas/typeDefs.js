@@ -43,7 +43,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    userById(id: ID!): User
+    userById(userId: ID!): User
     currentMonthSummary(userId: ID!): MonthlySummary!
     monthlyRecordByUser(userId: ID!, month: Int!, year: Int!): MonthlyRecord
   }
@@ -55,7 +55,11 @@ const typeDefs = gql`
     removeIncomeFromUser(userId: ID!, incomeId: ID!): User
     addExpenseToUser(userId: ID!, description: String!, amount: Float!): User
     removeExpenseFromUser(userId: ID!, expenseId: ID!): User
-    createMonthlyRecord(userId: ID!, month: Int!, year: Int!): MonthlyRecord
+    stashAndResetCurrentMonth(
+      userId: ID!
+      month: Int!
+      year: Int!
+    ): MonthlyRecord
   }
 
   type Auth {

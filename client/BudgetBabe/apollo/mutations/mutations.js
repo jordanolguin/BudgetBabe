@@ -73,3 +73,24 @@ export const REMOVE_EXPENSE = gql`
     }
   }
 `;
+export const STASH_AND_RESET_CURRENT_MONTH = gql`
+  mutation StashAndResetCurrentMonth($userId: ID!, $month: Int!, $year: Int!) {
+    stashAndResetCurrentMonth(userId: $userId, month: $month, year: $year) {
+      month
+      year
+      totalIncome
+      totalExpense
+      savings
+      incomeStreams {
+        amount
+        source
+        id
+      }
+      expenses {
+        amount
+        description
+        id
+      }
+    }
+  }
+`;
