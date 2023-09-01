@@ -1,6 +1,12 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, MonthlyRecord } = require("../models");
 const { signToken } = require("../utils/auth");
+const {
+  generateUniqueToken,
+  isTokenExpired,
+  sendPasswordResetEmail,
+} = require("../utils/passwordReset");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -149,6 +155,46 @@ const resolvers = {
         throw new Error(
           `Failed to stash and reset monthly data: ${error.message}`
         );
+      }
+    },
+
+    requestPasswordReset: async (parent, { email }) => {
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          throw new AuthenticationError("No user with this email found!");
+        }
+        const resetToken = generateUniqueToken();
+        user.resetPasswordToken = resetToken;
+        await user.save();
+
+        sendPasswordResetEmail(email, resetToken);
+        return true;
+      } catch (error) {
+        throw new Error(`Failed to request password reset: ${error.message}`);
+      }
+    },
+
+    resetPassword: async (parent, { resetToken, newPassword }) => {
+      try {
+        const user = await User.findOne({ resetPasswordToken: resetToken });
+        if (!user) {
+          throw new AuthenticationError("Invalid or expired reset token");
+        }
+        if (isTokenExpired(user.resetToken)) {
+          throw new AuthenticationError("Invalid or expired reset token");
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        user.resetPasswordToken = null;
+        await user.save();
+
+        sendPasswordResetConfirmationEmail(user.email);
+
+        return true;
+      } catch (error) {
+        throw new Error(`Failed to reset password: ${error.message}`);
       }
     },
   },

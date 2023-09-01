@@ -20,6 +20,7 @@ const typeDefs = gql`
     password: String!
     incomeStreams: [IncomeStream]
     expenses: [Expense]
+    resetPasswordToken: String
   }
 
   type MonthlyRecord {
@@ -60,6 +61,8 @@ const typeDefs = gql`
       month: Int!
       year: Int!
     ): MonthlyRecord
+    requestPasswordReset(email: String!): Boolean
+    resetPassword(token: String!, newPassword: String!): Boolean
   }
 
   type Auth {
