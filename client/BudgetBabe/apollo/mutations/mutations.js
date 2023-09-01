@@ -11,6 +11,7 @@ export const LOGIN = gql`
     }
   }
 `;
+
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
@@ -58,6 +59,7 @@ export const ADD_INCOME_TO_USER = gql`
     }
   }
 `;
+
 export const REMOVE_INCOME = gql`
   mutation RemoveIncomeFromUser($userId: ID!, $incomeId: ID!) {
     removeIncomeFromUser(userId: $userId, incomeId: $incomeId) {
@@ -73,6 +75,7 @@ export const REMOVE_EXPENSE = gql`
     }
   }
 `;
+
 export const STASH_AND_RESET_CURRENT_MONTH = gql`
   mutation StashAndResetCurrentMonth($userId: ID!, $month: Int!, $year: Int!) {
     stashAndResetCurrentMonth(userId: $userId, month: $month, year: $year) {
@@ -92,5 +95,17 @@ export const STASH_AND_RESET_CURRENT_MONTH = gql`
         id
       }
     }
+  }
+`;
+
+export const SEND_PASSWORD_RESET_EMAIL = gql`
+  mutation SendPasswordResetEmail($email: String!) {
+    sendPasswordResetEmail(email: $email)
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation ResetPassword($resetToken: String!, $newPassword: String!) {
+    resetPassword(resetToken: $resetToken, newPassword: $newPassword)
   }
 `;

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Input,
@@ -11,8 +12,25 @@ import {
   Box,
 } from "native-base";
 import { Platform } from "react-native";
+import { SEND_PASSWORD_RESET_EMAIL } from "../../apollo/mutations/mutations";
 
 const ForgotPasswordForm = () => {
+  const [email, setEmail] = useState("");
+  const [sendPasswordResetEmail, { loading, error }] = useMutation(
+    SEND_PASSWORD_RESET_EMAIL
+  );
+
+  const handleSendEmail = async () => {
+    try {
+      const { data } = await sendPasswordResetEmail({ variables: { email } });
+      if (data && data.sendPasswordResetEmail) {
+        alert("Password reset email sent. Check your inbox.");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ height: Platform.OS === "ios" ? 300 : "auto" }}
@@ -39,13 +57,29 @@ const ForgotPasswordForm = () => {
           >
             <Heading mb="3">Forgot Password</Heading>
             <Text color="muted.400">
-              Not to worry! Enter the email address associated with your account
-              and we’ll send a link to reset your password.
+              Don’t worry, Babe! Enter the email address associated with your
+              account and we’ll send a link to reset your password.
             </Text>
-            <Input placeholder="Email Address" mt="4" mb="4" />
-            <Button backgroundColor="#3D6DCC" mb="4">
-              Proceed
+            <Input
+              placeholder="Email Address"
+              mt="4"
+              mb="4"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+            <Button
+              backgroundColor="#3D6DCC"
+              mb="4"
+              onPress={handleSendEmail}
+              isLoading={loading}
+            >
+              {loading ? "Sending..." : "Proceed"}
             </Button>
+            {error && (
+              <Text color="red.500">
+                Error: Failed to send password reset email.
+              </Text>
+            )}
           </VStack>
         </Center>
       </Box>
