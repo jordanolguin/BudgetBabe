@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
+import { Button, Form, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "../index.css";
+
 import { WEB_RESET_PASSWORD } from "../mutations/webMutations";
 
 function ResetPasswordForm() {
+  const { token } = useParams();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +29,9 @@ function ResetPasswordForm() {
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value === confirmPassword) {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    if (newPassword === confirmPassword) {
       setPasswordsMatch(true);
     } else {
       setPasswordsMatch(false);
@@ -35,21 +39,21 @@ function ResetPasswordForm() {
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    if (e.target.value === password) {
+    const newConfirmPassword = e.target.value;
+    setConfirmPassword(newConfirmPassword);
+    if (newConfirmPassword === password) {
       setPasswordsMatch(true);
     } else {
       setPasswordsMatch(false);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (password === confirmPassword) {
       try {
         const response = await webResetPassword({
           variables: {
-            resetToken: "Your reset token",
+            resetToken: token,
             newPassword: password,
           },
         });
@@ -59,69 +63,75 @@ function ResetPasswordForm() {
         } else {
           alert("Password reset failed.");
         }
-      } catch (err) {
-        console.error("An error occured:", err);
+      } catch (error) {
+        console.error("An error occurred:", error.message);
       }
     } else {
       setPasswordsMatch(false);
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>An error occured: {error.message}</p>;
-  }
-
-  if (data && data.resetPassword) {
-    return <p>Password reset successfully!</p>;
-  }
-
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formGroupPassword">
-        <Form.Label>New Password</Form.Label>
-        <InputGroup>
-          <Form.Control
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
+    <div className="container">
+      <div className="form-container">
+        <h1>Reset Your Password</h1>
+        <Form>
+          <Form.Group>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="New Password"
+              value={password}
+              onChange={handlePasswordChange}
+              className="form-control"
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEye : faEyeSlash}
+              onClick={togglePasswordVisibility}
+              className="icon"
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Control
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm New Password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              className="form-control"
+            />
+            <FontAwesomeIcon
+              icon={showConfirmPassword ? faEye : faEyeSlash}
+              onClick={toggleConfirmPasswordVisibility}
+              className="icon"
+            />
+          </Form.Group>
+
+          {!passwordsMatch && (
+            <Alert variant="danger">Passwords do not match.</Alert>
+          )}
+
           <Button
-            variant="outline-secondary"
-            onClick={togglePasswordVisibility}
+            variant="primary"
+            onClick={handleSubmit}
+            disabled={!passwordsMatch}
           >
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            {loading ? "Loading..." : "Reset Password"}
           </Button>
-        </InputGroup>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formGroupConfirmPassword">
-        <Form.Label>Confirm New Password</Form.Label>
-        <InputGroup>
-          <Form.Control
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
-          <Button
-            variant="outline-secondary"
-            onClick={toggleConfirmPasswordVisibility}
-          >
-            <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
-          </Button>
-        </InputGroup>
-        {!passwordsMatch && (
-          <Form.Text className="text-muted">Passwords do not match.</Form.Text>
-        )}
-      </Form.Group>
-      <Button variant="primary" type="submit" disabled={!passwordsMatch}>
-        Reset Password
-      </Button>
-    </Form>
+
+          {error && (
+            <Alert variant="danger">
+              {error.message.includes("Password too weak")
+                ? "Password must be at least 8 characters long."
+                : `An error occurred: ${error.message}`}
+            </Alert>
+          )}
+
+          {data && data.resetPassword && (
+            <Alert variant="success">Password reset successfully!</Alert>
+          )}
+        </Form>
+      </div>
+    </div>
   );
 }
 
