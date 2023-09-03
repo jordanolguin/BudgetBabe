@@ -55,7 +55,7 @@ const SignInForm = () => {
         py="8"
         w="90%"
         maxW="300"
-        backgroundColor={"white"}
+        backgroundColor={"#fff"}
         borderRadius={10}
       >
         <Heading

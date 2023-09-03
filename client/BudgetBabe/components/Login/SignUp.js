@@ -68,7 +68,7 @@ const SignUpForm = () => {
           maxW="300"
           py="8"
           marginTop={10}
-          backgroundColor={"white"}
+          backgroundColor={"#fff"}
           borderRadius={10}
         >
           <Heading

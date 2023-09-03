@@ -33,7 +33,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ height: Platform.OS === "ios" ? 300 : "auto" }}
+      style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Box
@@ -42,9 +42,9 @@ const ForgotPasswordForm = () => {
         w="90%"
         maxW="350"
         marginTop={10}
-        backgroundColor={"white"}
+        backgroundColor={"#fff"}
         borderRadius={10}
-        style={{ flex: 1 }}
+        style={{ flex: 1, maxHeight: 300 }}
       >
         <Center>
           <VStack
