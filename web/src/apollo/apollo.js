@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 const serverURL =
-  "https://dcd7-2601-8c0-681-ba70-5d70-81da-9d42-bd90.ngrok.io/graphql";
+  "https://fd6e-2601-8c0-681-ba70-dc33-7a33-388f-caea.ngrok.io/graphql";
 
 const httpLink = new HttpLink({
   uri: serverURL,

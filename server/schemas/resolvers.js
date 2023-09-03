@@ -151,7 +151,7 @@ const resolvers = {
     //   }
     // },
 
-    requestPasswordReset: async (parent, { email }) => {
+    requestPasswordReset: async (parent, { email }, context) => {
       try {
         const user = await User.findOne({ email });
         if (!user) {
@@ -161,14 +161,14 @@ const resolvers = {
         user.resetPasswordToken = resetToken;
         await user.save();
 
-        sendPasswordResetEmail(email, resetToken);
+        await sendPasswordResetEmail(context.transporter, email, resetToken);
         return true;
       } catch (error) {
         throw new Error(`Failed to request password reset: ${error.message}`);
       }
     },
 
-    resetPassword: async (parent, { resetToken, newPassword }) => {
+    resetPassword: async (parent, { resetToken, newPassword }, context) => {
       try {
         const user = await User.findOne({ resetPasswordToken: resetToken });
         if (!user) {
@@ -183,7 +183,10 @@ const resolvers = {
         user.resetPasswordToken = null;
         await user.save();
 
-        sendPasswordResetConfirmationEmail(user.email);
+        await sendPasswordResetConfirmationEmail(
+          context.transporter,
+          user.email
+        );
 
         return true;
       } catch (error) {

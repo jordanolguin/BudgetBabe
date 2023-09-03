@@ -22,7 +22,9 @@ const ForgotPasswordForm = () => {
 
   const handleSendEmail = async () => {
     try {
-      const { data } = await sendPasswordResetEmail({ variables: { email } });
+      const { data } = await sendPasswordResetEmail({
+        variables: { email },
+      });
       if (data && data.sendPasswordResetEmail) {
         alert("Password reset email sent. Check your inbox.");
       } else {
