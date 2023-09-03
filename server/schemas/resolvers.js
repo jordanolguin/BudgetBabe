@@ -98,65 +98,58 @@ const resolvers = {
       );
     },
 
-    stashAndResetCurrentMonth: async (parent, { userId, month, year }) => {
-      console.log(
-        `Stashing and resetting monthly data for User: ${userId}, Month: ${month}, Year: ${year}`
-      );
-      try {
-        // Check if record already exists for the given month and year
-        const existingRecord = await MonthlyRecord.findOne({
-          user: userId,
-          month,
-          year,
-        });
-        if (existingRecord) {
-          throw new Error("A record for this month and year already exists.");
-        }
+    // stashCurrentMonth: async (parent, { userId, month, year }) => {
+    //   console.log(
+    //     `Stashing and resetting monthly data for User: ${userId}, Month: ${month}, Year: ${year}`
+    //   );
+    //   try {
+    //     // Check if record already exists for the given month and year
+    //     const existingRecord = await MonthlyRecord.findOne({
+    //       user: userId,
+    //       month,
+    //       year,
+    //     });
+    //     if (existingRecord) {
+    //       throw new Error("A record for this month and year already exists.");
+    //     }
 
-        // Retrieve the user to get current incomeStreams and expenses
-        const user = await User.findById(userId);
-        if (!user) {
-          throw new Error("User not found");
-        }
+    //     // Retrieve the user to get current incomeStreams and expenses
+    //     const user = await User.findById(userId);
+    //     if (!user) {
+    //       throw new Error("User not found");
+    //     }
 
-        const totalIncome = user.incomeStreams.reduce(
-          (sum, stream) => sum + stream.amount,
-          0
-        );
-        const totalExpense = user.expenses.reduce(
-          (sum, expense) => sum + expense.amount,
-          0
-        );
-        const savings = totalIncome - totalExpense;
+    //     const totalIncome = user.incomeStreams.reduce(
+    //       (sum, stream) => sum + stream.amount,
+    //       0
+    //     );
+    //     const totalExpense = user.expenses.reduce(
+    //       (sum, expense) => sum + expense.amount,
+    //       0
+    //     );
+    //     const savings = totalIncome - totalExpense;
 
-        const newRecord = {
-          user: userId,
-          month,
-          year,
-          incomeStreams: user.incomeStreams,
-          expenses: user.expenses,
-          totalIncome: totalIncome,
-          totalExpense: totalExpense,
-          savings: savings,
-        };
+    //     const newRecord = {
+    //       user: userId,
+    //       month,
+    //       year,
+    //       incomeStreams: user.incomeStreams,
+    //       expenses: user.expenses,
+    //       totalIncome: totalIncome,
+    //       totalExpense: totalExpense,
+    //       savings: savings,
+    //     };
 
-        // Create the MonthlyRecord
-        await MonthlyRecord.create(newRecord);
+    //     // Create the MonthlyRecord
+    //     await MonthlyRecord.create(newRecord);
 
-        // Reset the user's data for the current month
-        await User.findByIdAndUpdate(
-          userId,
-          { $set: { incomeStreams: [], expenses: [] } },
-          { new: true }
-        );
-
-        return newRecord;
-      } catch (error) {
-        throw new Error(
-          `Failed to stash and reset monthly data: ${error.message}`
-        );
-      }
-    },
+    //     return newRecord;
+    //   } catch (error) {
+    //     throw new Error(
+    //       `Failed to stash and reset monthly data: ${error.message}`
+    //     );
+    //   }
+    // },
 
     requestPasswordReset: async (parent, { email }) => {
       try {

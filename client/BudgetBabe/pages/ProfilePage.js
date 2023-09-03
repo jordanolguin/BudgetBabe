@@ -87,7 +87,7 @@ const ProfilePage = ({ route }) => {
         <>
           <HStack space={4} marginTop={8} alignItems="flex-start">
             <Savings data={currentMonthSummary.savings} />
-            <Stash userId={profile?.data?._id} onMonthAdded={onRefresh} />
+            {/* <Stash userId={profile?.data?._id} onMonthAdded={onRefresh} /> */}
           </HStack>
         </>
       );

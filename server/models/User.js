@@ -21,6 +21,7 @@ const userSchema = new Schema({
     unique: true,
     match: [/.+\@.+\..+/, "Must be a valid email."],
   },
+  lastLogin: { type: Date, default: Date.now },
   incomeStreams: [incomeStreamSchema],
   expenses: [expenseSchema],
 });

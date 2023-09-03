@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import {
   Actionsheet,
   useDisclose,
@@ -9,6 +10,8 @@ import {
   ScrollView,
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { MONTHLY_RECORD_BY_USER } from "../../apollo/queries/queries";
+import AuthService from "../../utils/storage";
 
 const monthNames = [
   "January",
@@ -27,11 +30,43 @@ const monthNames = [
 
 function MonthHistory() {
   const { isOpen, onOpen, onClose } = useDisclose();
+  const [profile, setProfile] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
 
   const today = new Date();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
+
+  const { data, loading, error } = useQuery(MONTHLY_RECORD_BY_USER, {
+    variables: {
+      userId: profile?.data?._id,
+      month: selectedMonth || currentMonth + 1,
+      year: selectedYear || currentYear,
+    },
+    skip: !profile?.data?._id,
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const userProfile = await AuthService.getProfile();
+      setProfile(userProfile);
+    };
+
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isOpen]);
+
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error: {error.message}</Text>;
+
+  const monthlyRecord = data ? data.monthlyRecordByUser : null;
 
   const generateMonthsForYear = () => {
     return Array.from({ length: 12 }, (_, i) => {
@@ -102,8 +137,44 @@ function MonthHistory() {
 
     const borderStyle = getBorderStyle(isMonthPast, isMonthFuture);
 
+    const handleClick = () => {
+      setSelectedMonth(monthIndex + 1); // 1-indexed
+      setSelectedYear(currentYear);
+      onOpen();
+    };
+
+    if (selectedMonth === monthIndex + 1 && monthlyRecord) {
+      return (
+        <Actionsheet.Item key={index} style={borderStyle}>
+          <Text>{`${monthData.month} ${monthData.year}`}</Text>
+          <Text>Total Income: {monthlyRecord.totalIncome}</Text>
+          <Text>Total Expense: {monthlyRecord.totalExpense}</Text>
+          <Text>Savings: {monthlyRecord.savings}</Text>
+          <Text>Income Streams:</Text>
+          {monthlyRecord.incomeStreams.map((stream) => (
+            <Text key={stream.id}>
+              {stream.source}: {stream.amount}
+            </Text>
+          ))}
+          <Text>Expenses:</Text>
+          {monthlyRecord.expenses.map((expense) => (
+            <Text key={expense.id}>
+              {expense.description}: {expense.amount}
+            </Text>
+          ))}
+          {isMonthCurrent && (
+            <Text
+              style={{ marginTop: 4, fontWeight: "bold", color: "#3D6DCC" }}
+            >
+              Today
+            </Text>
+          )}
+        </Actionsheet.Item>
+      );
+    }
+
     return (
-      <Actionsheet.Item key={index} style={borderStyle}>
+      <Actionsheet.Item key={index} style={borderStyle} onPress={handleClick}>
         <Text>{`${monthData.month} ${monthData.year}`}</Text>
         {isMonthCurrent && (
           <Text style={{ marginTop: 4, fontWeight: "bold", color: "#3D6DCC" }}>
@@ -122,12 +193,6 @@ function MonthHistory() {
       onClose();
     }
   };
-
-  useEffect(() => {
-    if (!isOpen) {
-      setIsMenuOpen(false);
-    }
-  }, [isOpen]);
 
   return (
     <Center>

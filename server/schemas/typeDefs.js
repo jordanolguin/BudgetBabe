@@ -18,6 +18,7 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
+    lastLogin: String
     incomeStreams: [IncomeStream]
     expenses: [Expense]
     resetPasswordToken: String
@@ -56,11 +57,7 @@ const typeDefs = gql`
     removeIncomeFromUser(userId: ID!, incomeId: ID!): User
     addExpenseToUser(userId: ID!, description: String!, amount: Float!): User
     removeExpenseFromUser(userId: ID!, expenseId: ID!): User
-    stashAndResetCurrentMonth(
-      userId: ID!
-      month: Int!
-      year: Int!
-    ): MonthlyRecord
+    # stashCurrentMonth(userId: ID!, month: Int!, year: Int!): MonthlyRecord
     requestPasswordReset(email: String!): Boolean
     resetPassword(token: String!, newPassword: String!): Boolean
   }
