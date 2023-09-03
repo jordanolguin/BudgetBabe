@@ -25,9 +25,12 @@ const ForgotPasswordForm = () => {
       const { data } = await sendPasswordResetEmail({ variables: { email } });
       if (data && data.sendPasswordResetEmail) {
         alert("Password reset email sent. Check your inbox.");
+      } else {
+        alert("Failed to send password reset email.");
       }
     } catch (err) {
       console.error(err);
+      alert("Error: Failed to send password reset email.");
     }
   };
 
@@ -75,11 +78,6 @@ const ForgotPasswordForm = () => {
             >
               {loading ? "Sending..." : "Proceed"}
             </Button>
-            {error && (
-              <Text color="red.500">
-                Error: Failed to send password reset email.
-              </Text>
-            )}
           </VStack>
         </Center>
       </Box>
