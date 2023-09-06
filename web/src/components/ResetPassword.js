@@ -46,7 +46,11 @@ function ResetPasswordForm() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    console.log("passwordsMatch:", passwordsMatch);
+    console.log("password:", password);
+    console.log("token:", token);
+    e.preventDefault();
     if (passwordsMatch && password && token) {
       try {
         await resetPassword({
@@ -102,7 +106,7 @@ function ResetPasswordForm() {
 
           <Button
             variant="primary"
-            onClick={handleSubmit}
+            onClick={(e) => handleSubmit(e)}
             disabled={!passwordsMatch}
           >
             {loading ? "Loading..." : "Reset Password"}
