@@ -1,11 +1,18 @@
-import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ResetPasswordForm from "./components/ResetPassword";
 
 function App() {
   return (
-    <div>
-      <ResetPasswordForm />
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route
+            path="/BudgetBabe/reset-password/:token"
+            element={<ResetPasswordForm />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
