@@ -7,10 +7,7 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordForm />}
-          />
+          <Route path="/" element={<ResetPasswordForm />} />
         </Routes>
       </div>
     </Router>
