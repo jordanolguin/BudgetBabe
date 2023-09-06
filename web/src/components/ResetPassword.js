@@ -5,8 +5,7 @@ import { Button, Form, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "../index.css";
-
-import { WEB_RESET_PASSWORD } from "../mutations/webMutations";
+import { RESET_PASSWORD } from "../mutations/webMutations";
 
 function ResetPasswordForm() {
   const { token } = useParams();
@@ -17,8 +16,7 @@ function ResetPasswordForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const [webResetPassword, { loading, error, data }] =
-    useMutation(WEB_RESET_PASSWORD);
+  const [resetPassword, { data, loading, error }] = useMutation(RESET_PASSWORD);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -49,25 +47,17 @@ function ResetPasswordForm() {
   };
 
   const handleSubmit = async () => {
-    if (password === confirmPassword) {
+    if (passwordsMatch && password && token) {
       try {
-        const response = await webResetPassword({
+        await resetPassword({
           variables: {
-            resetToken: token,
+            token,
             newPassword: password,
           },
         });
-
-        if (response && response.data && response.data.resetPassword) {
-          alert("Password reset successfully!");
-        } else {
-          alert("Password reset failed.");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error.message);
+      } catch (err) {
+        console.error("Error resetting password:", err);
       }
-    } else {
-      setPasswordsMatch(false);
     }
   };
 
