@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Button, Form, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,7 @@ import "../index.css";
 import { RESET_PASSWORD } from "../mutations/webMutations";
 
 function ResetPasswordForm() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get("token");
+  const { token } = useParams();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
