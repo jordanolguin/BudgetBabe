@@ -1,11 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, MonthlyRecord } = require("../models");
 const { signToken } = require("../utils/auth");
-const {
-  generateUniqueToken,
-  isTokenExpired,
-  sendPasswordResetEmail,
-} = require("../utils/passwordReset");
+const { generateUniqueToken } = require("../utils/passwordReset");
 const bcrypt = require("bcrypt");
 
 const resolvers = {
@@ -98,99 +94,77 @@ const resolvers = {
       );
     },
 
-    // stashCurrentMonth: async (parent, { userId, month, year }) => {
-    //   console.log(
-    //     `Stashing and resetting monthly data for User: ${userId}, Month: ${month}, Year: ${year}`
-    //   );
-    //   try {
-    //     // Check if record already exists for the given month and year
-    //     const existingRecord = await MonthlyRecord.findOne({
-    //       user: userId,
-    //       month,
-    //       year,
-    //     });
-    //     if (existingRecord) {
-    //       throw new Error("A record for this month and year already exists.");
-    //     }
+    forgotPassword: async (_, { email }, { sgMail }) => {
+      console.log("Forgot password mutation triggered for email:", email);
 
-    //     // Retrieve the user to get current incomeStreams and expenses
-    //     const user = await User.findById(userId);
-    //     if (!user) {
-    //       throw new Error("User not found");
-    //     }
-
-    //     const totalIncome = user.incomeStreams.reduce(
-    //       (sum, stream) => sum + stream.amount,
-    //       0
-    //     );
-    //     const totalExpense = user.expenses.reduce(
-    //       (sum, expense) => sum + expense.amount,
-    //       0
-    //     );
-    //     const savings = totalIncome - totalExpense;
-
-    //     const newRecord = {
-    //       user: userId,
-    //       month,
-    //       year,
-    //       incomeStreams: user.incomeStreams,
-    //       expenses: user.expenses,
-    //       totalIncome: totalIncome,
-    //       totalExpense: totalExpense,
-    //       savings: savings,
-    //     };
-
-    //     // Create the MonthlyRecord
-    //     await MonthlyRecord.create(newRecord);
-
-    //     return newRecord;
-    //   } catch (error) {
-    //     throw new Error(
-    //       `Failed to stash and reset monthly data: ${error.message}`
-    //     );
-    //   }
-    // },
-
-    requestPasswordReset: async (parent, { email }, context) => {
       try {
         const user = await User.findOne({ email });
+
         if (!user) {
-          throw new AuthenticationError("No user with this email found!");
+          throw new Error("User not found");
         }
+
+        // Generate the reset token
         const resetToken = generateUniqueToken();
-        user.resetPasswordToken = resetToken;
+        await User.findOneAndUpdate({ email }, { resetToken });
+
+        // Store the token in the user's record
+        user.resetToken = resetToken;
+
+        // Set token expiration (1 hour from now)
+        user.resetTokenExpires = new Date(Date.now() + 1 * 60 * 60 * 1000);
+
+        // Save the user with the updated fields
         await user.save();
 
-        await sendPasswordResetEmail(context.transporter, email, resetToken);
-        return true;
+        const resetLink = `https://jordanolguin.github.io/BudgetBabe/?token=${resetToken}`;
+
+        const msg = {
+          to: email,
+          from: "budgetbabeapps@gmail.com",
+          subject: "Password Reset Request",
+          text: `To reset your password, please click the following link: ${resetLink}`,
+          html: `<strong>To reset your password, please click the following link:</strong> <a href="${resetLink}">Reset Password</a>`,
+        };
+
+        await sgMail.send(msg);
+
+        return {
+          success: true,
+          message: "Password reset email sent",
+        };
       } catch (error) {
-        throw new Error(`Failed to request password reset: ${error.message}`);
+        console.error("Error while processing forgot password:", error.message);
+        throw new Error("Server Error");
       }
     },
-
-    resetPassword: async (parent, { resetToken, newPassword }, context) => {
+    resetPassword: async (_, { token, newPassword }) => {
       try {
-        const user = await User.findOne({ resetPasswordToken: resetToken });
+        // Validate the token.
+        const user = await User.findOne({ resetToken: token });
         if (!user) {
-          throw new AuthenticationError("Invalid or expired reset token");
-        }
-        if (isTokenExpired(user.resetToken)) {
-          throw new AuthenticationError("Invalid or expired reset token");
+          throw new Error("Invalid token");
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
-        user.resetPasswordToken = null;
+        const isTokenStillValid = jwt.verify(token, secret);
+        if (!isTokenStillValid) {
+          throw new Error("Token has expired");
+        }
+
+        // Update the user's password.
+        user.password = newPassword;
+        user.resetToken = undefined; // Invalidate the token
+        user.resetTokenExpires = undefined; // Clear expiration
+
         await user.save();
 
-        await sendPasswordResetConfirmationEmail(
-          context.transporter,
-          user.email
-        );
-
-        return true;
+        return {
+          success: true,
+          message: "Password updated successfully",
+        };
       } catch (error) {
-        throw new Error(`Failed to reset password: ${error.message}`);
+        console.error("Error while resetting password:", error.message);
+        throw new Error("Server Error");
       }
     },
   },

@@ -44,6 +44,11 @@ const typeDefs = gql`
     savings: Float
   }
 
+  type Response {
+    success: Boolean!
+    message: String!
+  }
+
   type Query {
     userById(userId: ID!): User
     currentMonthSummary(userId: ID!): MonthlySummary!
@@ -58,8 +63,8 @@ const typeDefs = gql`
     addExpenseToUser(userId: ID!, description: String!, amount: Float!): User
     removeExpenseFromUser(userId: ID!, expenseId: ID!): User
     # stashCurrentMonth(userId: ID!, month: Int!, year: Int!): MonthlyRecord
-    requestPasswordReset(email: String!): Boolean
-    resetPassword(token: String!, newPassword: String!): Boolean
+    forgotPassword(email: String!): Response!
+    resetPassword(token: String!, newPassword: String!): Response!
   }
 
   type Auth {

@@ -98,14 +98,11 @@ export const REMOVE_EXPENSE = gql`
 //   }
 // `;
 
-export const SEND_PASSWORD_RESET_EMAIL = gql`
-  mutation SendPasswordResetEmail($email: String!) {
-    sendPasswordResetEmail(email: $email)
-  }
-`;
-
-export const RESET_PASSWORD = gql`
-  mutation ResetPassword($resetToken: String!, $newPassword: String!) {
-    resetPassword(resetToken: $resetToken, newPassword: $newPassword)
+export const FORGOT_PASSWORD_MUTATION = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      success
+      message
+    }
   }
 `;

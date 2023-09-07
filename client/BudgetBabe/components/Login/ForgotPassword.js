@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { FORGOT_PASSWORD_MUTATION } from "../../apollo/mutations/mutations";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Input,
@@ -12,27 +13,23 @@ import {
   Box,
 } from "native-base";
 import { Platform } from "react-native";
-import { SEND_PASSWORD_RESET_EMAIL } from "../../apollo/mutations/mutations";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
-  const [sendPasswordResetEmail, { loading, error }] = useMutation(
-    SEND_PASSWORD_RESET_EMAIL
+  const [forgotPassword, { loading, data, error }] = useMutation(
+    FORGOT_PASSWORD_MUTATION
   );
 
   const handleSendEmail = async () => {
     try {
-      const { data } = await sendPasswordResetEmail({
-        variables: { email },
-      });
-      if (data && data.sendPasswordResetEmail) {
-        alert("Password reset email sent. Check your inbox.");
+      const response = await forgotPassword({ variables: { email } });
+      if (response.data.forgotPassword.success) {
+        alert(response.data.forgotPassword.message);
       } else {
-        alert("Failed to send password reset email.");
+        alert("Something went wrong while processing your request.");
       }
-    } catch (err) {
-      console.error(err);
-      alert("Error: Failed to send password reset email.");
+    } catch (e) {
+      alert(`Error: ${e.message}`);
     }
   };
 

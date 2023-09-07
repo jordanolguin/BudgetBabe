@@ -24,6 +24,8 @@ const userSchema = new Schema({
   lastLogin: { type: Date, default: Date.now },
   incomeStreams: [incomeStreamSchema],
   expenses: [expenseSchema],
+  resetToken: String,
+  resetTokenExpires: Date,
 });
 
 userSchema.pre("save", async function (next) {
