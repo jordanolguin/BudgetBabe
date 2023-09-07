@@ -3,7 +3,7 @@ import ResetPasswordForm from "./components/ResetPassword";
 
 function App() {
   return (
-    <Router basename="/BudgetBabe">
+    <Router>
       <div>
         <Routes>
           <Route path="/:token" element={<ResetPasswordForm />} />
