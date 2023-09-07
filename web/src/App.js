@@ -6,10 +6,7 @@ function App() {
     <>
       <Router basename="/BudgetBabe">
         <Routes>
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordForm />}
-          />
+          <Route path="/:token" element={<ResetPasswordForm />} />
         </Routes>
       </Router>
     </>
