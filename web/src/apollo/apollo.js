@@ -5,6 +5,7 @@ const serverURL =
 
 const httpLink = new HttpLink({
   uri: serverURL,
+  credentials: "include",
 });
 
 const client = new ApolloClient({
