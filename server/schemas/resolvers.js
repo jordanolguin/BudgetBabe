@@ -117,7 +117,7 @@ const resolvers = {
         // Save the user with the updated fields
         await user.save();
 
-        const resetLink = `https://jordanolguin.github.io/BudgetBabe/?token=${resetToken}`;
+        const resetLink = `https://jordanolguin.github.io/BudgetBabe/#/${resetToken}`;
 
         const msg = {
           to: email,
