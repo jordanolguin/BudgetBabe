@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://f542-2601-282-e80-3660-e1ce-58c-fb74-1df8.ngrok.io",
+      "https://d160-2601-282-e80-3660-e1ce-58c-fb74-1df8.ngrok.io",
       "https://budget-babe-server-14ac1914ff1d.herokuapp.com/",
       "http://localhost:3001",
       "exp://fa8-ly4.lone1ne.8081.exp.direct",
