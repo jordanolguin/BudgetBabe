@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "https://d160-2601-282-e80-3660-e1ce-58c-fb74-1df8.ngrok.io",
-      "https://budget-babe-server-14ac1914ff1d.herokuapp.com/",
+      "https://budget-babe-server-52483ffb6833.herokuapp.com/",
       "http://localhost:3001",
       "exp://fa8-ly4.lone1ne.8081.exp.direct",
       "https://jordanolguin.github.io",
