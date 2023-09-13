@@ -9,7 +9,7 @@ import AuthService from "../utils/storage";
 
 const httpLink = createHttpLink({
   //changes every 2 hours
-  uri: "https://fd6e-2601-8c0-681-ba70-dc33-7a33-388f-caea.ngrok.io/graphql",
+  uri: "https://budget-babe-server-f1a665edcb00.herokuapp.com/graphql",
 });
 
 // Apollo Link for setting the context (headers)
