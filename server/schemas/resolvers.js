@@ -2,6 +2,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User, MonthlyRecord } = require("../models");
 const { signToken } = require("../utils/auth");
 const { generateUniqueToken } = require("../utils/passwordReset");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const resolvers = {
