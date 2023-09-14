@@ -1,11 +1,10 @@
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 const serverURL =
   "https://budget-babe-server-f1a665edcb00.herokuapp.com/graphql";
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: serverURL,
-  credentials: "include",
 });
 
 const client = new ApolloClient({
