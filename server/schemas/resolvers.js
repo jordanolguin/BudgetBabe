@@ -163,7 +163,7 @@ const resolvers = {
         };
       } catch (error) {
         console.error("Error while resetting password:", error.message);
-        throw new Error("Server Error");
+        throw new Error(error.message);
       }
     },
   },
