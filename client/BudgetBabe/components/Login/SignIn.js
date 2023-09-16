@@ -3,6 +3,7 @@ import AuthService from "../../utils/storage";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../apollo/mutations/mutations";
+import Loading from "../Loading/Loading";
 import {
   Box,
   Text,

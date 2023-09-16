@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LinearGradient } from "expo-linear-gradient";
-import { Toast, useToast } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { ADD_USER } from "../../apollo/mutations/mutations";
 
@@ -13,6 +12,8 @@ import {
   Input,
   Button,
   Center,
+  AlertDialog,
+  Spinner,
 } from "native-base";
 
 const SignUpForm = () => {
@@ -22,8 +23,8 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-
-  const toast = useToast();
+  const [showAlert, setShowAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [addUser] = useMutation(ADD_USER);
 
@@ -34,24 +35,20 @@ const SignUpForm = () => {
     }
 
     try {
+      setIsLoading(true);
       const { data } = await addUser({
         variables: { username, email, password },
       });
-      navigation.navigate("Budget Babe");
+      navigation.navigate("Profile");
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-
-      toast.show({
-        title: "Success",
-        description: "You have successfully signed up!",
-        status: "success",
-        duration: 4000,
-        isClosable: true,
-      });
+      setShowAlert(true);
     } catch (err) {
       setErrorMessage(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -117,12 +114,41 @@ const SignUpForm = () => {
                 onChangeText={setConfirmPassword}
               />
             </FormControl>
-            <Button mt="2" backgroundColor="#3D6DCC" onPress={handleSignUp}>
-              Sign up
+            <Button
+              mt="2"
+              backgroundColor="#3D6DCC"
+              onPress={handleSignUp}
+              _pressed={{ opacity: 0.8 }}
+              disabled={isLoading}
+            >
+              {isLoading ? <Spinner color="#fff" /> : "Sign Up"}
             </Button>
           </VStack>
         </Box>
       </Center>
+      <AlertDialog
+        isOpen={showAlert}
+        leastDestructiveRef={null}
+        onClose={() => setShowAlert(false)}
+      >
+        <AlertDialog.Content>
+          <AlertDialog.Header fontSize="lg" fontWeight="bold">
+            Success!
+          </AlertDialog.Header>
+          <AlertDialog.Body>Your account has been created.</AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Center flex={1}>
+              <Button
+                colorScheme="blue"
+                _text={{ color: "#fff" }}
+                onPress={() => setShowAlert(false)}
+              >
+                OK
+              </Button>
+            </Center>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
     </LinearGradient>
   );
 };
