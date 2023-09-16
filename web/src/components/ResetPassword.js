@@ -47,9 +47,6 @@ function ResetPasswordForm() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("passwordsMatch:", passwordsMatch);
-    console.log("password:", password);
-    console.log("token:", token);
     e.preventDefault();
     if (passwordsMatch && password && token) {
       try {
@@ -58,6 +55,8 @@ function ResetPasswordForm() {
             token,
             newPassword: password,
           },
+          setPassword: "",
+          setConfirmPassword: "",
         });
       } catch (err) {
         console.error("Error resetting password:", err);
@@ -70,13 +69,13 @@ function ResetPasswordForm() {
       <div className="form-container">
         <h1>Reset Your Password</h1>
         <Form>
-          <Form.Group>
+          <Form.Group className="form-control">
             <Form.Control
               type={showPassword ? "text" : "password"}
               placeholder="New Password"
               value={password}
               onChange={handlePasswordChange}
-              className="form-control"
+              style={{ paddingRight: "40px" }}
             />
             <FontAwesomeIcon
               icon={showPassword ? faEye : faEyeSlash}
@@ -85,13 +84,13 @@ function ResetPasswordForm() {
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="form-control">
             <Form.Control
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm New Password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
-              className="form-control"
+              style={{ paddingRight: "40px" }}
             />
             <FontAwesomeIcon
               icon={showConfirmPassword ? faEye : faEyeSlash}
