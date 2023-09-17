@@ -3,7 +3,7 @@ import { Center, Text, Box, HStack } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { PlannedIncome, IncomeStreams, AddIncome } from "../components/Income";
 import { ExpenseList, TotalExpenses, AddExpense } from "../components/Expense";
-import { Savings, Stash } from "../components/Remaining";
+import { MyPieChart, Savings, Stash } from "../components/Remaining";
 import WelcomeMessage from "../components/Welcome/WelcomeMessage";
 import AuthService from "../utils/storage";
 import { useQuery } from "@apollo/client";
@@ -90,6 +90,7 @@ const ProfilePage = ({ route }) => {
             <Savings data={currentMonthSummary.savings} />
             {/* <Stash userId={profile?.data?._id} onMonthAdded={onRefresh} /> */}
           </HStack>
+          <MyPieChart data={currentMonthSummary} />
         </>
       );
       break;
