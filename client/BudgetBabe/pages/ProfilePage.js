@@ -8,6 +8,7 @@ import WelcomeMessage from "../components/Welcome/WelcomeMessage";
 import AuthService from "../utils/storage";
 import { useQuery } from "@apollo/client";
 import { CURRENT_MONTH_SUMMARY } from "../apollo/queries/queries";
+import Loading from "../components/Loading/Loading";
 
 const ProfilePage = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState(
@@ -42,7 +43,7 @@ const ProfilePage = ({ route }) => {
     refetch();
   };
 
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <Loading />;
   if (error) return <Text>Error: {error.message}</Text>;
 
   const currentMonthSummary = data?.currentMonthSummary;
