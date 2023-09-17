@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon, Text, Overlay } from "react-native-elements";
 import AuthService from "../../utils/storage";
+import DeleteAccount from "../DeleteAccount/DeleteAccount";
 
 export default function DropDownMenu({ navigation }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleOptionSelect = (option) => {
+    console.log(option);
     if (option === "Logout") {
       AuthService.logout();
       navigation.navigate("Budget Babe");
     } else if (option === "Affirmations") {
       navigation.navigate("Profile", { selectedTab: null });
+      toggleDropdown();
+    } else if (option === "Delete Account") {
+      setIsDeleteAccountOpen(true);
+    } else {
       toggleDropdown();
     }
   };
@@ -56,6 +63,29 @@ export default function DropDownMenu({ navigation }) {
               marginBottom: 5,
             }}
           />
+          <TouchableOpacity
+            onPress={() => handleOptionSelect("Delete Account")}
+          >
+            <Text
+              style={{
+                padding: 3,
+                fontSize: 18,
+                color: "#3D6DCC",
+              }}
+            >
+              Delete Account
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#003366",
+              width: "106%",
+              alignSelf: "center",
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          />
           <TouchableOpacity onPress={() => handleOptionSelect("Logout")}>
             <Text
               style={{
@@ -69,6 +99,10 @@ export default function DropDownMenu({ navigation }) {
           </TouchableOpacity>
         </View>
       </Overlay>
+      <DeleteAccount
+        isOpen={isDeleteAccountOpen}
+        onClose={() => setIsDeleteAccountOpen(false)}
+      />
     </View>
   );
 }

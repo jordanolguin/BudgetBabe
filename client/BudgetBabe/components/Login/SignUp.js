@@ -131,7 +131,7 @@ const SignUpForm = () => {
         leastDestructiveRef={null}
         onClose={() => setShowAlert(false)}
       >
-        <AlertDialog.Content>
+        <AlertDialog.Content style={{ alignItems: "center" }}>
           <AlertDialog.Header fontSize="lg" fontWeight="bold">
             Success!
           </AlertDialog.Header>
@@ -140,6 +140,7 @@ const SignUpForm = () => {
             <Center flex={1}>
               <Button
                 colorScheme="blue"
+                width="75%"
                 _text={{ color: "#fff" }}
                 onPress={() => setShowAlert(false)}
               >
