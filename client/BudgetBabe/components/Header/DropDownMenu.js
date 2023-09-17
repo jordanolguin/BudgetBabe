@@ -1,19 +1,13 @@
 import { useState } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Icon, Text, Overlay } from "react-native-elements";
 import AuthService from "../../utils/storage";
-import DeleteAccount from "../DeleteAccount/DeleteAccount";
 
 export default function DropDownMenu({ navigation }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const toggleDeleteAccount = () => {
-    setIsDeleteAccountOpen(!isDeleteAccountOpen);
   };
 
   const handleOptionSelect = (option) => {
@@ -24,8 +18,27 @@ export default function DropDownMenu({ navigation }) {
       navigation.navigate("Profile", { selectedTab: null });
       toggleDropdown();
     } else if (option === "Delete Account") {
-      toggleDeleteAccount();
-      toggleDropdown();
+      Alert.alert(
+        "Delete Account",
+        "Are you sure you want to delete your account?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => {
+              toggleDropdown();
+            },
+            style: "cancel",
+          },
+          {
+            text: "Delete",
+            onPress: () => {
+              // add delete account functionality
+              AuthService.deleteAccount();
+              navigation.navigate("Budget Babe");
+            },
+          },
+        ]
+      );
     }
   };
 
@@ -100,10 +113,6 @@ export default function DropDownMenu({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <DeleteAccount
-          isOpen={isDeleteAccountOpen}
-          onClose={toggleDeleteAccount}
-        />
       </Overlay>
     </View>
   );
