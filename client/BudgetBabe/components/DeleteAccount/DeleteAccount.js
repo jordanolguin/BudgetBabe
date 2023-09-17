@@ -1,16 +1,22 @@
 import { useRef } from "react";
-import { Center, AlertDialog, NativeBaseProvider, Button } from "native-base";
+import {
+  Center,
+  AlertDialog,
+  NativeBaseProvider,
+  Button,
+  View,
+} from "native-base";
 
 const DeleteAccount = ({ isOpen, onClose }) => {
   const cancelRef = useRef();
 
   return (
     <Center>
-      <NativeBaseProvider>
+      <View>
         <AlertDialog
           leastDestructiveRef={cancelRef}
           isOpen={isOpen}
-          onClose={onClose} // Use the onClose prop to close the modal
+          onClose={onClose}
         >
           <AlertDialog.Content>
             <AlertDialog.CloseButton />
@@ -35,7 +41,7 @@ const DeleteAccount = ({ isOpen, onClose }) => {
             </AlertDialog.Footer>
           </AlertDialog.Content>
         </AlertDialog>
-      </NativeBaseProvider>
+      </View>
     </Center>
   );
 };

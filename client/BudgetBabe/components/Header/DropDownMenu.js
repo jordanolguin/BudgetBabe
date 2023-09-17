@@ -12,8 +12,11 @@ export default function DropDownMenu({ navigation }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleDeleteAccount = () => {
+    setIsDeleteAccountOpen(!isDeleteAccountOpen);
+  };
+
   const handleOptionSelect = (option) => {
-    console.log(option);
     if (option === "Logout") {
       AuthService.logout();
       navigation.navigate("Budget Babe");
@@ -21,8 +24,7 @@ export default function DropDownMenu({ navigation }) {
       navigation.navigate("Profile", { selectedTab: null });
       toggleDropdown();
     } else if (option === "Delete Account") {
-      setIsDeleteAccountOpen(true);
-    } else {
+      toggleDeleteAccount();
       toggleDropdown();
     }
   };
@@ -98,11 +100,11 @@ export default function DropDownMenu({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+        <DeleteAccount
+          isOpen={isDeleteAccountOpen}
+          onClose={toggleDeleteAccount}
+        />
       </Overlay>
-      <DeleteAccount
-        isOpen={isDeleteAccountOpen}
-        onClose={() => setIsDeleteAccountOpen(false)}
-      />
     </View>
   );
 }
