@@ -169,6 +169,23 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
+    deleteUser: async (parent, { userId }) => {
+      try {
+        await MonthlyRecord.deleteMany({ user: userId });
+
+        const user = await User.findByIdAndDelete(userId);
+
+        if (!user) {
+          console.error("Error while deleting user: User not found");
+          return false;
+        }
+
+        return true;
+      } catch (error) {
+        console.error("Error while deleting user:", error.message);
+        return false;
+      }
+    },
   },
 };
 

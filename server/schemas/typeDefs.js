@@ -65,6 +65,7 @@ const typeDefs = gql`
     # stashCurrentMonth(userId: ID!, month: Int!, year: Int!): MonthlyRecord
     forgotPassword(email: String!): Response!
     resetPassword(token: String!, newPassword: String!): Response!
+    deleteUser(userId: ID!): Boolean
   }
 
   type Auth {
