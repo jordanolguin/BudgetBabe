@@ -6,6 +6,7 @@ import { ExpenseList, TotalExpenses, AddExpense } from "../components/Expense";
 import { MyPieChart, Savings, Stash } from "../components/Remaining";
 import WelcomeMessage from "../components/Welcome/WelcomeMessage";
 import AuthService from "../utils/storage";
+import { useAuth } from "../utils/AuthContext";
 import { useQuery } from "@apollo/client";
 import { CURRENT_MONTH_SUMMARY } from "../apollo/queries/queries";
 import Loading from "../components/Loading/Loading";
@@ -14,16 +15,7 @@ const ProfilePage = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState(
     route.params?.selectedTab || null
   );
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const userProfile = await AuthService.getProfile();
-      setProfile(userProfile);
-    };
-
-    fetchProfile();
-  }, []);
+  const { profile, fetchProfile } = useAuth();
 
   useEffect(() => {
     if (
@@ -32,7 +24,10 @@ const ProfilePage = ({ route }) => {
     ) {
       setSelectedTab(route.params?.selectedTab);
     }
-  }, [route.params?.selectedTab]);
+    if (profile) {
+      refetch();
+    }
+  }, [route.params?.selectedTab, profile]);
 
   const { data, loading, error, refetch } = useQuery(CURRENT_MONTH_SUMMARY, {
     variables: { userId: profile?.data?._id },

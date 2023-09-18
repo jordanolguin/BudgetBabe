@@ -10,47 +10,52 @@ import ProfilePage from "./pages/ProfilePage";
 import ForgotPasswordForm from "./components/Login/ForgotPassword";
 import { ApolloProvider } from "@apollo/client";
 import client from "./apollo/client";
+import { AuthProvider } from "./utils/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Budget Babe" component={HomeScreen} />
-            <Stack.Screen name="SignUp" component={SignUpForm} />
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPasswordForm}
-            />
-            <Stack.Screen
-              name="Profile"
-              component={ProfilePage}
-              options={{
-                header: (props) => {
-                  const initialIndex = null;
-                  const onTabSelect = (selectedIndex) => {
-                    props.navigation.setParams({ selectedTab: selectedIndex });
-                  };
+      <AuthProvider>
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen name="Budget Babe" component={HomeScreen} />
+              <Stack.Screen name="SignUp" component={SignUpForm} />
+              <Stack.Screen
+                name="ForgotPassword"
+                component={ForgotPasswordForm}
+              />
+              <Stack.Screen
+                name="Profile"
+                component={ProfilePage}
+                options={{
+                  header: (props) => {
+                    const initialIndex = null;
+                    const onTabSelect = (selectedIndex) => {
+                      props.navigation.setParams({
+                        selectedTab: selectedIndex,
+                      });
+                    };
 
-                  return (
-                    <CustomHeader
-                      {...props}
-                      initialIndex={initialIndex}
-                      onTabSelect={onTabSelect}
-                      navigation={props.navigation}
-                    />
-                  );
-                },
-              }}
-            />
-          </Stack.Navigator>
+                    return (
+                      <CustomHeader
+                        {...props}
+                        initialIndex={initialIndex}
+                        onTabSelect={onTabSelect}
+                        navigation={props.navigation}
+                      />
+                    );
+                  },
+                }}
+              />
+            </Stack.Navigator>
 
-          <StatusBar style="auto" />
-        </NavigationContainer>
-      </NativeBaseProvider>
+            <StatusBar style="auto" />
+          </NavigationContainer>
+        </NativeBaseProvider>
+      </AuthProvider>
     </ApolloProvider>
   );
 }

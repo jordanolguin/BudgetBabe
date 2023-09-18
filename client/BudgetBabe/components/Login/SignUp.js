@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuth } from "../../utils/AuthContext";
+import AuthService from "../../utils/storage";
 import { useMutation } from "@apollo/client";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
@@ -17,6 +19,7 @@ import {
 } from "native-base";
 
 const SignUpForm = () => {
+  const { fetchProfile } = useAuth();
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -39,6 +42,12 @@ const SignUpForm = () => {
       const { data } = await addUser({
         variables: { username, email, password },
       });
+
+      if (data?.addUser?.token) {
+        await AuthService.storeToken(data.addUser.token);
+        await fetchProfile();
+      }
+
       navigation.navigate("Profile");
       setUsername("");
       setEmail("");

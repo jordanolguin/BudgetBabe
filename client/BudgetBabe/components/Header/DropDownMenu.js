@@ -1,13 +1,34 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { DELETE_USER } from "../../apollo/mutations/mutations";
 import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Icon, Text, Overlay } from "react-native-elements";
+import { useAuth } from "../../utils/AuthContext";
 import AuthService from "../../utils/storage";
 
 export default function DropDownMenu({ navigation }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [deleteUser] = useMutation(DELETE_USER);
+  const { profile } = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const userId = profile?.data?._id;
+      const { data } = await deleteUser({
+        variables: { userId },
+      });
+      if (data.deleteUser) {
+        navigation.navigate("Budget Babe");
+      } else {
+        Alert.alert("Error", "Failed to delete account");
+      }
+    } catch (error) {
+      console.error("Failed to delete account", error);
+    }
   };
 
   const handleOptionSelect = (option) => {
@@ -32,9 +53,7 @@ export default function DropDownMenu({ navigation }) {
           {
             text: "Delete",
             onPress: () => {
-              // add delete account functionality
-              AuthService.deleteAccount();
-              navigation.navigate("Budget Babe");
+              handleDeleteAccount();
             },
           },
         ]

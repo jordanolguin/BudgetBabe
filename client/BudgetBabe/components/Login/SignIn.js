@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AuthService from "../../utils/storage";
+import { useAuth } from "../../utils/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../apollo/mutations/mutations";
@@ -18,6 +19,7 @@ import {
 } from "native-base";
 
 const SignInForm = () => {
+  const { fetchProfile } = useAuth();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +39,7 @@ const SignInForm = () => {
       if (data && data.login && data.login.token) {
         const token = data.login.token;
         await AuthService.storeToken(token);
+        await fetchProfile();
         navigation.navigate("Profile");
         setEmail("");
         setPassword("");
