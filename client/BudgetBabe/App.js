@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
 import CustomHeader from "./components/Header/Header";
+import LandingHeader from "./components/Header/LandingHeader";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 import SignUpForm from "./components/Login/SignUp";
 import ProfilePage from "./pages/ProfilePage";
@@ -21,11 +22,40 @@ export default function App() {
         <NativeBaseProvider>
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Budget Babe" component={HomeScreen} />
-              <Stack.Screen name="SignUp" component={SignUpForm} />
+              <Stack.Screen
+                name="Budget Babe"
+                component={HomeScreen}
+                options={{
+                  header: () => <LandingHeader />,
+                }}
+              />
+              <Stack.Screen
+                name="SignUp"
+                component={SignUpForm}
+                options={{
+                  headerTitle: "Sign Up",
+                  headerStyle: {
+                    backgroundColor: "#3D6DCC",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                  },
+                }}
+              />
               <Stack.Screen
                 name="ForgotPassword"
                 component={ForgotPasswordForm}
+                options={{
+                  headerTitle: "Forgot Password",
+                  headerStyle: {
+                    backgroundColor: "#3D6DCC",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                  },
+                }}
               />
               <Stack.Screen
                 name="Profile"
