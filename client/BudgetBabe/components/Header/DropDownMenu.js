@@ -22,7 +22,14 @@ export default function DropDownMenu({ navigation }) {
         variables: { userId },
       });
       if (data.deleteUser) {
-        navigation.navigate("Budget Babe");
+        Alert.alert("Success", "Account deleted", [
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.navigate("Budget Babe");
+            },
+          },
+        ]);
       } else {
         Alert.alert("Error", "Failed to delete account");
       }
