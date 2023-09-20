@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Text, Box, Heading, ScrollView, HStack, Spacer } from "native-base";
 import { View, Animated } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";

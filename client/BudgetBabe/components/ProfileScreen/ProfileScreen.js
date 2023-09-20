@@ -1,4 +1,3 @@
-import React from "react";
 import { Center, Box, Text } from "native-base";
 import MonthHistory from "../MonthHistory/MonthHistory";
 

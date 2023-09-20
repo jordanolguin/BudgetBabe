@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Center, Text, Box, HStack } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { PlannedIncome, IncomeStreams, AddIncome } from "../components/Income";

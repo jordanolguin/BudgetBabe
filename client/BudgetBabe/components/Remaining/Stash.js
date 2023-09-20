@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 // import { useMutation, useQuery } from "@apollo/client";
 // import { STASH_CURRENT_MONTH } from "../../apollo/mutations/mutations";
 // import { MONTHLY_RECORD_BY_USER } from "../../apollo/queries/queries";

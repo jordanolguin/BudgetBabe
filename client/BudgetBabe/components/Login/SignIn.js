@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AuthService from "../../utils/storage";
 import { useAuth } from "../../utils/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../apollo/mutations/mutations";
-import Loading from "../Loading/Loading";
 import {
   Box,
   Text,

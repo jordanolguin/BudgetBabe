@@ -1,4 +1,3 @@
-import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Center, Box } from "native-base";
 import SignInForm from "../Login/SignIn";

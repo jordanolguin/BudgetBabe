@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Center, Text, Image, Box } from "native-base";
 import { Animated, Easing, View } from "react-native";
 

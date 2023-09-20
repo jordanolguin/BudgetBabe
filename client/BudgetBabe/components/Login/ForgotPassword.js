@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { FORGOT_PASSWORD_MUTATION } from "../../apollo/mutations/mutations";
 import { LinearGradient } from "expo-linear-gradient";
