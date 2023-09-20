@@ -1,6 +1,6 @@
 # Budget Babe - Fullstack React Native App
 
-Welcome to Budget Babe, a budgeting app designed to help users manage their finances efficiently. This app is currently in its BETA phase and is built using MongoDB, React Native, and React for the password reset web interface.
+Welcome to Budget Babe, a budgeting app designed to help users manage their finances efficiently. This app is currently in its BETA phase and is built using MongoDB, GraphQL, React Native, and React for the password reset web interface.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -24,6 +24,7 @@ Budget Babe is a mobile application that empowers users to track their income, e
 - Savings goals tracking
 - Password reset web interface using React
 - MongoDB database for data storage
+- GraphQL for database queries and mutations
 - React Native for the mobile app
 
 ## Getting Started
@@ -44,9 +45,9 @@ To get started with Budget Babe, follow these steps:
 
 2. Install server dependencies: `npm i`
 
-3. Create a `.env` file in the `server` directory with the following content: "ADD CONTENT HERE"
+3. Create a `.env` file in the `server` directory with the following content, replacing `<your-mongodb-uri>` with your MongoDB connection URI: `1. SendGrid API key 2. JWT secret 3. JWT expiration`
 
-4. Start the server: `npm start`
+4. Start the server: `npm start` or `npm run watch`
 
 ### React Native App
 
@@ -55,6 +56,14 @@ To get started with Budget Babe, follow these steps:
 2. Install app dependencies: `npm i`
 
 3. Start the React Native app on your emulator or device: `npx expo start` `i`
+
+### React Web Reset Interface
+
+1. Navigate to the `web` directory: `cd web`
+
+2. Install app dependencies: `npm i`
+
+3. Start the React Web App: `npm start`
 
 ## Usage
 
@@ -74,5 +83,6 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
