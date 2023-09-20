@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { ADD_USER } from "../../apollo/mutations/mutations";
-
+import { Alert } from "react-native";
 import {
   Box,
   Heading,
@@ -14,7 +14,6 @@ import {
   Input,
   Button,
   Center,
-  AlertDialog,
   Spinner,
   Text,
 } from "native-base";
@@ -34,7 +33,6 @@ const SignUpForm = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [addUser] = useMutation(ADD_USER);
@@ -84,12 +82,23 @@ const SignUpForm = () => {
         await fetchProfile();
       }
 
-      navigation.navigate("Profile");
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      setShowAlert(true);
+      Alert.alert(
+        "Success!",
+        "Your account has been created.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.navigate("Profile");
+            },
+          },
+        ],
+        { cancelable: false }
+      );
     } catch (err) {
       setErrorMessage(err.message);
     } finally {
@@ -190,30 +199,6 @@ const SignUpForm = () => {
           </VStack>
         </Box>
       </Center>
-      <AlertDialog
-        isOpen={showAlert}
-        leastDestructiveRef={null}
-        onClose={() => setShowAlert(false)}
-      >
-        <AlertDialog.Content style={{ alignItems: "center" }}>
-          <AlertDialog.Header fontSize="lg" fontWeight="bold">
-            Success!
-          </AlertDialog.Header>
-          <AlertDialog.Body>Your account has been created.</AlertDialog.Body>
-          <AlertDialog.Footer>
-            <Center flex={1}>
-              <Button
-                colorScheme="blue"
-                width="75%"
-                _text={{ color: "#fff" }}
-                onPress={() => setShowAlert(false)}
-              >
-                OK
-              </Button>
-            </Center>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
-      </AlertDialog>
     </LinearGradient>
   );
 };
