@@ -40,6 +40,7 @@ export default function App() {
                   headerTintColor: "#fff",
                   headerTitleStyle: {
                     fontWeight: "bold",
+                    fontFamily: "Avenir",
                   },
                 }}
               />
@@ -54,6 +55,7 @@ export default function App() {
                   headerTintColor: "#fff",
                   headerTitleStyle: {
                     fontWeight: "bold",
+                    fontFamily: "Avenir",
                   },
                 }}
               />
