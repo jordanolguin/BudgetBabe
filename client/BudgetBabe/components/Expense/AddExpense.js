@@ -74,12 +74,6 @@ const AddExpense = ({ userId, onExpenseAdded }) => {
         <ScrollView style={{ width: "100%" }}>
           <VStack space={2} marginTop={5} marginX={2} alignItems="center">
             {error && <Text>Error: {error.message}</Text>}
-            <Input
-              value={description}
-              onChangeText={(text) => setDescription(text)}
-              placeholder="Expense Item"
-              style={{ backgroundColor: "#fff" }}
-            />
             <HStack space={2} alignItems="center">
               <Input
                 value={amount}
@@ -96,6 +90,12 @@ const AddExpense = ({ userId, onExpenseAdded }) => {
                 <Icon name="minus" size={12} color="#fff" />
               </Button>
             </HStack>
+            <Input
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+              placeholder="Expense Item"
+              style={{ backgroundColor: "#fff" }}
+            />
           </VStack>
         </ScrollView>
       </Box>

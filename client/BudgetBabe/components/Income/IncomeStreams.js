@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text, Box, Heading, ScrollView, HStack, Spacer } from "native-base";
 import { View, Animated } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useMutation } from "@apollo/client";
 import { REMOVE_INCOME } from "../../apollo/mutations/mutations";
+import ConfettiCannon from "react-native-confetti-cannon";
 
 const IncomeStreams = ({ data, userId, onIncomeRemoved }) => {
   const [removeIncomeFromUser, { loading, error }] = useMutation(
@@ -18,7 +19,7 @@ const IncomeStreams = ({ data, userId, onIncomeRemoved }) => {
   const slideAnim = useRef(data.map(() => new Animated.Value(-300))).current;
 
   if (slideAnim.length !== reversedData.length) {
-    slideAnim.length = reversedData.length; // Reset length
+    slideAnim.length = reversedData.length;
     reversedData.forEach((_, index) => {
       if (!slideAnim[index]) slideAnim[index] = new Animated.Value(-300);
     });
@@ -37,6 +38,12 @@ const IncomeStreams = ({ data, userId, onIncomeRemoved }) => {
       )
     ).start();
   }, [reversedData]);
+
+  const [confetti, setConfetti] = useState(false);
+
+  const handleAddIncome = () => {
+    setConfetti(true);
+  };
 
   const handleDelete = async (userId, incomeId) => {
     try {
@@ -110,6 +117,19 @@ const IncomeStreams = ({ data, userId, onIncomeRemoved }) => {
           </Animated.View>
         ))}
       </ScrollView>
+      {confetti && (
+        <ConfettiCannon
+          count={200}
+          origin={{ x: -10, y: 0 }}
+          autoStart={true}
+          fadeOut={true}
+          explosionSpeed={0}
+          fallSpeed={2000}
+          fadeOutDelay={10000}
+          colors={["#3D6DCC", "#E6E6FA", "#003366"]}
+          onAnimationEnd={() => setConfetti(false)}
+        />
+      )}
     </Box>
   );
 };
