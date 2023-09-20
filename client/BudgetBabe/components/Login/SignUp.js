@@ -16,20 +16,56 @@ import {
   Center,
   AlertDialog,
   Spinner,
+  Text,
 } from "native-base";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const SignUpForm = () => {
   const { fetchProfile } = useAuth();
   const navigation = useNavigation();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [addUser] = useMutation(ADD_USER);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(
+      (prevShowConfirmPassword) => !prevShowConfirmPassword
+    );
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    if (text === confirmPassword) {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  };
+
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmPassword(text);
+    if (text === password) {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  };
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
@@ -110,19 +146,38 @@ const SignUpForm = () => {
             <FormControl>
               <FormControl.Label>Password</FormControl.Label>
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={handlePasswordChange}
+                InputRightElement={
+                  <MaterialCommunityIcons
+                    name={showPassword ? "eye-off" : "eye"}
+                    size={24}
+                    onPress={togglePasswordVisibility}
+                    style={{ marginRight: 10 }}
+                  />
+                }
               />
             </FormControl>
             <FormControl>
               <FormControl.Label>Confirm Password</FormControl.Label>
               <Input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
-                onChangeText={setConfirmPassword}
+                onChangeText={handleConfirmPasswordChange}
+                InputRightElement={
+                  <MaterialCommunityIcons
+                    name={showConfirmPassword ? "eye-off" : "eye"}
+                    size={24}
+                    onPress={toggleConfirmPasswordVisibility}
+                    style={{ marginRight: 10 }}
+                  />
+                }
               />
             </FormControl>
+            {!passwordsMatch && (
+              <Text style={{ color: "red" }}>Passwords do not match</Text>
+            )}
             <Button
               mt="2"
               backgroundColor="#3D6DCC"
