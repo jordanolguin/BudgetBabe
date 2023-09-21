@@ -3,7 +3,6 @@ const { User, MonthlyRecord } = require("../models");
 const { signToken } = require("../utils/auth");
 const { generateUniqueToken } = require("../utils/passwordReset");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const secret = process.env.JWT_SECRET;
 
@@ -61,8 +60,62 @@ const resolvers = {
       if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
+      const currentDate = new Date();
+      const prevMonth =
+        currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1;
+      const prevYear =
+        currentDate.getMonth() === 0
+          ? currentDate.getFullYear() - 1
+          : currentDate.getFullYear();
+
+      let message;
+
+      if (
+        user.lastLogin &&
+        (user.lastLogin.getMonth() !== currentDate.getMonth() ||
+          user.lastLogin.getFullYear() !== currentDate.getFullYear()) &&
+        (user.createdAt.getMonth() !== currentDate.getMonth() ||
+          user.createdAt.getFullYear() !== currentDate.getFullYear())
+      ) {
+        const existingRecord = await MonthlyRecord.findOne({
+          user: user._id,
+          month: prevMonth + 1,
+          year: prevYear,
+        });
+
+        if (!existingRecord) {
+          const totalIncome = user.incomeStreams.reduce(
+            (sum, stream) => sum + stream.amount,
+            0
+          );
+          const totalExpense = user.expenses.reduce(
+            (sum, expense) => sum + expense.amount,
+            0
+          );
+          const savings = totalIncome - totalExpense;
+
+          const newRecord = {
+            user: user._id,
+            month: prevMonth + 1,
+            year: prevYear,
+            incomeStreams: user.incomeStreams,
+            expenses: user.expenses,
+            totalIncome: totalIncome,
+            totalExpense: totalExpense,
+            savings: savings,
+          };
+
+          await MonthlyRecord.create(newRecord);
+
+          message = "Your last month's data has been stashed.";
+        }
+      }
+
+      user.lastLogin = currentDate;
+      await user.save();
+
       const token = signToken(user);
-      return { token, user };
+      return { token, user, message };
     },
     addIncomeToUser: async (parent, { userId, source, amount }) => {
       return await User.findByIdAndUpdate(

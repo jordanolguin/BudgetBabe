@@ -26,6 +26,7 @@ const userSchema = new Schema({
   expenses: [expenseSchema],
   resetToken: String,
   resetTokenExpires: Date,
+  createdAt: { type: Date, default: Date.now },
 });
 
 userSchema.pre("save", async function (next) {

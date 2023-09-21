@@ -62,7 +62,6 @@ const typeDefs = gql`
     removeIncomeFromUser(userId: ID!, incomeId: ID!): User
     addExpenseToUser(userId: ID!, description: String!, amount: Float!): User
     removeExpenseFromUser(userId: ID!, expenseId: ID!): User
-    # stashCurrentMonth(userId: ID!, month: Int!, year: Int!): MonthlyRecord
     forgotPassword(email: String!): Response!
     resetPassword(token: String!, newPassword: String!): Response!
     deleteUser(userId: ID!): Boolean
@@ -71,6 +70,7 @@ const typeDefs = gql`
   type Auth {
     token: ID!
     user: User
+    message: String
   }
 `;
 
