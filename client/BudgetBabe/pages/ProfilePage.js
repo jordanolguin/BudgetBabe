@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
-import { Center, Text, Box, HStack } from "native-base";
+import { Center, Text, View, HStack } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { PlannedIncome, IncomeStreams, AddIncome } from "../components/Income";
 import { ExpenseList, TotalExpenses, AddExpense } from "../components/Expense";
 import { MyPieChart, Savings, Stash } from "../components/Remaining";
 import WelcomeMessage from "../components/Welcome/WelcomeMessage";
-import AuthService from "../utils/storage";
 import { useAuth } from "../utils/AuthContext";
 import { useQuery } from "@apollo/client";
 import { CURRENT_MONTH_SUMMARY } from "../apollo/queries/queries";
 import Loading from "../components/Loading/Loading";
+import ConfettiCanon from "react-native-confetti-cannon";
 
 const ProfilePage = ({ route }) => {
+  const [showConfetti, setShowConfetti] = useState(false);
   const [selectedTab, setSelectedTab] = useState(
     route.params?.selectedTab || null
   );
@@ -36,6 +37,14 @@ const ProfilePage = ({ route }) => {
 
   const onRefresh = () => {
     refetch();
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 4000);
+  };
+
+  const onReload = () => {
+    refetch();
   };
 
   if (loading) return <Loading />;
@@ -48,15 +57,30 @@ const ProfilePage = ({ route }) => {
     case 0:
       displayedComponent = (
         <>
-          <HStack space={4} marginTop={8} alignItems="flex-start">
-            <PlannedIncome data={currentMonthSummary.totalIncome} />
-            <AddIncome userId={profile?.data?._id} onIncomeAdded={onRefresh} />
-          </HStack>
-          <IncomeStreams
-            data={currentMonthSummary.incomeStreams}
-            userId={profile?.data?._id}
-            onIncomeRemoved={onRefresh}
-          />
+          <View>
+            <HStack space={4} marginTop={8} alignItems="flex-start">
+              <PlannedIncome data={currentMonthSummary.totalIncome} />
+              <AddIncome
+                userId={profile?.data?._id}
+                onIncomeAdded={onRefresh}
+                showConfetti={showConfetti}
+              />
+            </HStack>
+            <IncomeStreams
+              data={currentMonthSummary.incomeStreams}
+              userId={profile?.data?._id}
+              onIncomeRemoved={onReload}
+            />
+            {showConfetti && (
+              <ConfettiCanon
+                count={200}
+                origin={{ x: -40, y: 0 }}
+                explosionSpeed="2700"
+                fallSpeed="1200"
+                fadeOut
+              />
+            )}
+          </View>
         </>
       );
       break;
@@ -65,15 +89,12 @@ const ProfilePage = ({ route }) => {
         <>
           <HStack space={4} marginTop={8} alignItems="flex-start">
             <TotalExpenses data={currentMonthSummary.totalExpense} />
-            <AddExpense
-              userId={profile?.data?._id}
-              onExpenseAdded={onRefresh}
-            />
+            <AddExpense userId={profile?.data?._id} onExpenseAdded={onReload} />
           </HStack>
           <ExpenseList
             data={currentMonthSummary.expenses}
             userId={profile?.data?._id}
-            onExpenseRemoved={onRefresh}
+            onExpenseRemoved={onReload}
           />
         </>
       );
