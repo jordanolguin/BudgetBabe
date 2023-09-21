@@ -16,6 +16,7 @@ import {
   HStack,
   Center,
 } from "native-base";
+import { Alert } from "react-native";
 
 const SignInForm = () => {
   const { fetchProfile } = useAuth();
@@ -42,6 +43,11 @@ const SignInForm = () => {
         navigation.navigate("Profile");
         setEmail("");
         setPassword("");
+        if (data.login.message) {
+          Alert.alert("Month Stashed!", "The past month has been stashed.", [
+            { text: "OK" },
+          ]);
+        }
       } else {
         console.error("Unexpected response structure:", data);
       }
