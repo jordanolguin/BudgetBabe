@@ -1,6 +1,6 @@
 # Budget Babe - Fullstack React Native App
 
-Welcome to Budget Babe, a budgeting app designed to help users manage their finances efficiently. This app is currently in its BETA phase and is built using MongoDB, GraphQL, React Native, and React for the password reset web interface.
+Welcome to Budget Babe, a budgeting app designed to help users manage their finances efficiently. This app is currently in its BETA phase and is built using MongoDB, GraphQL, Apollo Client, React Native, Native Base, React and React Bootstrap.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -22,10 +22,13 @@ Budget Babe is a mobile application that empowers users to track their income, e
 - Income and expense tracking
 - Budget creation and management
 - Savings goals tracking
-- Password reset web interface using React
+- SendGrid password reset web interface using React
 - MongoDB database for data storage
 - GraphQL for database queries and mutations
+- Apollo Client for managing both local and remote data with GraphQL
 - React Native for the mobile app
+- Native Base for universal UI design systems
+- React Bootstrap for web interface design
 
 ## Getting Started
 
@@ -43,7 +46,7 @@ To get started with Budget Babe, follow these steps:
 
 1. Navigate to the `server` directory: `cd server`
 
-2. Install server dependencies: `npm i`
+2. Install server dependencies: `npm install`
 
 3. Create a `.env` file in the `server` directory with the following content, replacing `<your-mongodb-uri>` with your MongoDB connection URI: `1. SendGrid API key 2. JWT secret 3. JWT expiration`
 
@@ -53,17 +56,25 @@ To get started with Budget Babe, follow these steps:
 
 1. Navigate to the `client` directory: `cd client` `cd BudgeBabe`
 
-2. Install app dependencies: `npm i`
+2. Install app dependencies: `npm install`
 
-3. Start the React Native app on your emulator or device: `npx expo start` `i`
+3. Start the React Native app on your emulator or device: `npx expo start` or `npx expo start --tunnel`
 
 ### React Web Reset Interface
 
 1. Navigate to the `web` directory: `cd web`
 
-2. Install app dependencies: `npm i`
+2. Install app dependencies: `npm install`
 
 3. Start the React Web App: `npm start`
+
+### Using ngrok For Local Development (Optional)
+
+1. In the root level, install app dependecy: `npm install ngrok -g`
+
+2. Open a new terminal and start ngrok: `ngrok http <your_local_host_port>` (Please note this will have to be updated every 2 hours)
+
+3. Paste your new URL into `client/BudgetBabe/apollo/client.js` and `web/apollo/apollo.js` in the HTTP URI Link and `server/server.js` in the cors origins.
 
 ## Usage
 
