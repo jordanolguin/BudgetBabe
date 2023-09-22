@@ -57,30 +57,28 @@ const ProfilePage = ({ route }) => {
     case 0:
       displayedComponent = (
         <>
-          <View>
-            <HStack space={4} marginTop={8} alignItems="flex-start">
-              <PlannedIncome data={currentMonthSummary.totalIncome} />
-              <AddIncome
-                userId={profile?.data?._id}
-                onIncomeAdded={onRefresh}
-                showConfetti={showConfetti}
-              />
-            </HStack>
-            <IncomeStreams
-              data={currentMonthSummary.incomeStreams}
+          <HStack space={4} marginTop={8} alignItems="flex-start">
+            <PlannedIncome data={currentMonthSummary.totalIncome} />
+            <AddIncome
               userId={profile?.data?._id}
-              onIncomeRemoved={onReload}
+              onIncomeAdded={onRefresh}
+              showConfetti={showConfetti}
             />
-            {showConfetti && (
-              <ConfettiCanon
-                count={200}
-                origin={{ x: -40, y: 0 }}
-                explosionSpeed="2700"
-                fallSpeed="1200"
-                fadeOut
-              />
-            )}
-          </View>
+          </HStack>
+          <IncomeStreams
+            data={currentMonthSummary.incomeStreams}
+            userId={profile?.data?._id}
+            onIncomeRemoved={onReload}
+          />
+          {showConfetti && (
+            <ConfettiCanon
+              count={200}
+              origin={{ x: 0, y: -10 }}
+              explosionSpeed="2700"
+              fallSpeed="1200"
+              fadeOut
+            />
+          )}
         </>
       );
       break;
