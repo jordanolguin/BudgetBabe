@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const LandingHeader = () => {
@@ -14,8 +13,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#3D6DCC",
     alignItems: "center",
     justifyContent: "center",
-    height: 64,
-    paddingTop: 20,
+    height: 84,
+    paddingTop: 40,
   },
   headerTitle: {
     color: "#FFF",

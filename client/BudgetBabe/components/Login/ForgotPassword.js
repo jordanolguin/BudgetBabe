@@ -12,7 +12,7 @@ import {
   Center,
   Box,
 } from "native-base";
-import { Platform } from "react-native";
+import { Platform, Alert } from "react-native";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -24,12 +24,15 @@ const ForgotPasswordForm = () => {
     try {
       const response = await forgotPassword({ variables: { email } });
       if (response.data.forgotPassword.success) {
-        alert(response.data.forgotPassword.message);
+        Alert.alert(
+          "Success!",
+          "An email has been sent to your inbox with a link to reset your password."
+        );
       } else {
-        alert("Something went wrong while processing your request.");
+        Alert.alert("Something went wrong while processing your request.");
       }
     } catch (e) {
-      alert(`Error: ${e.message}`);
+      Alert.alert(`Error: ${e.message}`);
     }
   };
 
