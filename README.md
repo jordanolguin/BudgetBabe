@@ -13,7 +13,7 @@ Welcome to Budget Babe, a budgeting app designed to help users manage their fina
 
 ## Introduction
 
-Budget Babe is a mobile application that empowers users to track their income, expenses, and savings goals. With a user-friendly interface and robust functionality, it simplifies financial management.
+Budget Babe is a mobile application that empowers users to track their income, expenses, and savings goals. With a user-friendly interface and robust functionality, it simplifies financial management. Click [here](https://docs.google.com/presentation/d/164WvPhNuhTJNJOordvAe9JJ4SZVk2KYBpmMpThi8zcU/edit?usp=sharing) to view the presentation slides of the first live demo of the app from September 27, 2023.
 
 ## Features
 
