@@ -179,7 +179,7 @@ const resolvers = {
           from: "budgetbabeapps@gmail.com",
           subject: "Password Reset Request",
           text: `To reset your password, please click the following link: ${resetLink}`,
-          html: `<strong>To reset your password, please click the following link:</strong> <a href="${resetLink}">Reset Password</a><br><br><em>This link will expire in 1 hour. Please ignore if you didnt make this request.</em>`,
+          html: `<strong>To reset your password, please click the following link:</strong> <a href="${resetLink}">Reset Password</a><br><br><em>This link will expire in 1 hour. Please ignore if you did not make this request.</em>`,
         };
 
         await sgMail.send(msg);
