@@ -1,0 +1,18 @@
+.container-home {
+  padding: 2rem;
+  margin: 2%;
+  max-width: 800px;
+  width: 100%;
+}
+.logo {
+  width: 100%;
+  border-radius: 80%;
+  border: 0.5rem solid #fff;
+  box-shadow: 0 0 8px 8px #197bbd;
+}
+
+@media screen and (max-width: 768px) {
+  .container-home {
+    max-width: 400px;
+  }
+}

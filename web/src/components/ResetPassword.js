@@ -1,22 +1,24 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Form, Alert, Toast } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import "../index.css";
+import "../css/resetPassword.css";
 import { RESET_PASSWORD } from "../mutations/webMutations";
 
 function ResetPasswordForm() {
   const { token } = useParams();
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [showToast, setShowToast] = useState(false);
 
-  const [resetPassword, { data, loading, error }] = useMutation(RESET_PASSWORD);
+  const [resetPassword, { loading, error }] = useMutation(RESET_PASSWORD);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -58,6 +60,8 @@ function ResetPasswordForm() {
           setPassword: "",
           setConfirmPassword: "",
         });
+        setShowToast(true);
+        navigate("/");
       } catch (err) {
         console.error("Error resetting password:", err);
       }
@@ -118,12 +122,27 @@ function ResetPasswordForm() {
                 : `An error occurred: ${error.message}`}
             </Alert>
           )}
-
-          {data && data.resetPassword && (
-            <Alert variant="success">Password reset successfully!</Alert>
-          )}
         </Form>
       </div>
+      <Toast
+        onClose={() => setShowToast(false)}
+        show={showToast}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          minWidth: "200px",
+        }}
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Success</strong>
+        </Toast.Header>
+        <Toast.Body>
+          Password reset successfully! Please return to the mobile application.
+        </Toast.Body>
+      </Toast>
     </div>
   );
 }
