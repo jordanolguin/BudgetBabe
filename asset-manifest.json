@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/BudgetBabe/static/css/main.6bcfa3db.css",
-    "main.js": "/BudgetBabe/static/js/main.dc1f8637.js",
+    "main.js": "/BudgetBabe/static/js/main.7574c6d3.js",
     "static/media/BBIcon.png": "/BudgetBabe/static/media/BBIcon.f694dab5918b1de80ba1.png",
     "index.html": "/BudgetBabe/index.html",
     "main.6bcfa3db.css.map": "/BudgetBabe/static/css/main.6bcfa3db.css.map",
-    "main.dc1f8637.js.map": "/BudgetBabe/static/js/main.dc1f8637.js.map"
+    "main.7574c6d3.js.map": "/BudgetBabe/static/js/main.7574c6d3.js.map"
   },
   "entrypoints": [
     "static/css/main.6bcfa3db.css",
-    "static/js/main.dc1f8637.js"
+    "static/js/main.7574c6d3.js"
   ]
 }
