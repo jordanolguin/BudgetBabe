@@ -61,7 +61,9 @@ function ResetPasswordForm() {
           setConfirmPassword: "",
         });
         setShowToast(true);
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       } catch (err) {
         console.error("Error resetting password:", err);
       }
@@ -82,7 +84,7 @@ function ResetPasswordForm() {
               style={{ paddingRight: "40px" }}
             />
             <FontAwesomeIcon
-              icon={showPassword ? faEye : faEyeSlash}
+              icon={showPassword ? faEyeSlash : faEye}
               onClick={togglePasswordVisibility}
               className="icon"
             />
@@ -97,7 +99,7 @@ function ResetPasswordForm() {
               style={{ paddingRight: "40px" }}
             />
             <FontAwesomeIcon
-              icon={showConfirmPassword ? faEye : faEyeSlash}
+              icon={showConfirmPassword ? faEyeSlash : faEye}
               onClick={toggleConfirmPasswordVisibility}
               className="icon"
             />
