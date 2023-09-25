@@ -63,7 +63,8 @@ function ResetPasswordForm() {
         setShowToast(true);
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+          setShowToast(false);
+        }, 5000);
       } catch (err) {
         console.error("Error resetting password:", err);
       }
@@ -129,13 +130,19 @@ function ResetPasswordForm() {
       <Toast
         onClose={() => setShowToast(false)}
         show={showToast}
-        delay={3000}
+        delay={5000}
         autohide
         style={{
           position: "fixed",
           top: 0,
           right: 0,
-          minWidth: "200px",
+          width: "200px",
+          color: "white",
+          backgroundColor: "#3D6DCC",
+          borderRadius: "10px",
+          padding: "10px",
+          margin: "10px",
+          textAlign: "center",
         }}
       >
         <Toast.Header>
